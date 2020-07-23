@@ -11,7 +11,7 @@ src_paths = "swap_user"
 
 [tool.poetry]
 name = "django-swap-user"
-version = "0.1.0b"
+version = "0.1.1b"
 description = "(Beta) Simple and flexible way to swap default Django User"
 authors = ["Artem Innokentiev <artinnok@protonmail.com>"]
 maintainers = ["Artem Innokentiev <artinnok@protonmail.com>"]
