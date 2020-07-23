@@ -1,15 +1,40 @@
 [tool.poetry]
 name = "django-swap-user"
-version = "0.1.0"
-description = "Simple and flexible way to swap default Django User"
-authors = ["Artem Innokentiev <artinnok@mail.ru>"]
+version = "0.1.0b"
+description = "(Beta) Simple and flexible way to swap default Django User"
+authors = ["Artem Innokentiev <artinnok@protonmail.com>"]
+maintainers = ["Artem Innokentiev <artinnok@protonmail.com>"]
+readme = "README.md"
+keywords = [
+  "django",
+  "swap",
+  "user",
+  "custom",
+  "user",
+  "auth",
+  "model",
+  "email",
+  "username",
+  "phone",
+  "mixins",
+  "authentication"
+]
 license = "MIT"
+repository = "http://github.com/artinnok/django-swap-user"
+packages = [
+    { include = "swap_user" },
+]
 
 [tool.poetry.dependencies]
-python = "^3.5"
+python = "^3.6"
+django = ">=2.1"
 
 [tool.poetry.dev-dependencies]
+black = "^19.10b0"
+isort = "^5.1.4"
+pytest = "^5.4.3"
+mypy = "^0.782"
 
 [build-system]
-requires = ["poetry>=0.12"]
+requires = ["poetry>=1.0.8"]
 build-backend = "poetry.masonry.api"
