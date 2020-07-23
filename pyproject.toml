@@ -1,3 +1,14 @@
+[tool.black]
+line-length = 100
+
+[tool.isort]
+line_length = 100
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+multi_line_output = 3
+known_django = "django"
+profile = "django"
+src_paths = "swap_user"
+
 [tool.poetry]
 name = "django-swap-user"
 version = "0.1.0b"
