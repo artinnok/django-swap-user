@@ -19,4 +19,3 @@ __copyright__ = "Copyright 2020 © Artem Innokentiev"
 VERSION = __version__
 
 default_app_config = "swap_user.apps.DjangoSwapUser"
-

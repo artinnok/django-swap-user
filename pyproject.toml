@@ -1,5 +1,21 @@
 [tool.black]
 line-length = 100
+exclude = '''
+/(
+  \.eggs
+  |\.git
+  |\.hg
+  |\.mypy_cache
+  |\.nox
+  |\.tox
+  |\.venv
+  |_build
+  |buck-out
+  |build
+  |dist
+  |models.py
+)/
+'''
 
 [tool.isort]
 line_length = 100

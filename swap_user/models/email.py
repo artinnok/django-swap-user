@@ -1,11 +1,12 @@
-
+from django.contrib.auth.models import (
+    AbstractBaseUser as DjangoAbstractBaseUser,
+    AbstractUser as DjangoAbstractUser,
+    PermissionsMixin,
+)
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import AbstractBaseUser as DjangoAbstractBaseUser
-from django.contrib.auth.models import AbstractUser as DjangoAbstractUser, PermissionsMixin
 
-
-from managers.email import Manager
+from swap_user.managers.email import Manager
 
 
 class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
@@ -23,6 +24,7 @@ class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
     - EMAIL_FIELD
     - REQUIRED_FIELDS
     """
+
     email = models.EmailField(
         verbose_name=_("email address"),
         unique=True,
@@ -42,10 +44,9 @@ class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
     )
 
     objects = Manager()
-    
+
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
-    REQUIRED_FIELDS = ["email"]
 
     class Meta:
         abstract = True
@@ -62,5 +63,6 @@ class EmailUser(AbstractEmailUser):
     """
     Point on this model if you want drop off EmailUser model with `email` field.
     """
+
     class Meta:
         swappable = "AUTH_USER_MODEL"
