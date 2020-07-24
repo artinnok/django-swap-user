@@ -8,9 +8,9 @@ from django.contrib.auth.models import AbstractUser as DjangoAbstractUser, Permi
 from managers.email import Manager
 
 
-class AbstractUser(PermissionsMixin, DjangoAbstractBaseUser):
+class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
     """
-    Abstract User implementation - subclass this class to provide your own
+    Abstract EmailUser implementation - subclass this class to provide your own
     custom User class with `email` field.
 
     Provides fields:
@@ -58,9 +58,9 @@ class AbstractUser(PermissionsMixin, DjangoAbstractBaseUser):
     get_full_name = __str__
 
 
-class User(AbstractUser):
+class EmailUser(AbstractEmailUser):
     """
-    Point on this model if you want drop off User model with `email` field.
+    Point on this model if you want drop off EmailUser model with `email` field.
     """
     class Meta:
         swappable = "AUTH_USER_MODEL"
