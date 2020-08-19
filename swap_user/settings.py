@@ -1,28 +1,33 @@
-from django.conf import settings
+from django.conf import settings as django_settings
 from django.utils.module_loading import import_string
-
 
 IMPORT_SETTINGS = [
     "EMAIL_USER_ABSTRACT_BASE_CLASS",
 ]
+DEFAULT_SETTINGS = {
+    "EMAIL_USER_ABSTRACT_BASE_CLASS": "swap_user.models.email.AbstractEmailUser"
+}
+NAMESPACE = "SWAP_USER"
 
 
 class SwapUserSettings:
-    EMAIL_USER_ABSTRACT_BASE_CLASS = "swap_user.models.email.AbstractEmailUser"
+    def make_import(self, item, path):
+        val = import_string(path)
+        setattr(self, item, val)
 
-    def __init__(self):
-        for key, value in self.__dict__.items():
-            if key not in IMPORT_SETTINGS:
-                continue
-
-            module = import_string(value)
-            setattr(self, key, module)
+        return val
 
     def __getattr__(self, item):
         try:
-            getattr(settings, item)
-        except AttributeError:
-            return getattr(self, item)
+            namespaced_settings = getattr(django_settings, NAMESPACE)
+            value = namespaced_settings[item]
+        except (AttributeError, KeyError):
+            value = DEFAULT_SETTINGS[item]
+
+        if item in IMPORT_SETTINGS:
+            value = self.make_import(item, value)
+
+        return value
 
 
 swap_user_settings = SwapUserSettings()
