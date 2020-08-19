@@ -33,4 +33,3 @@ class AbstractNamedEmailUser(AbstractEmailUser):
 class NamedEmailUser(AbstractNamedEmailUser):
     class Meta:
         swappable = "AUTH_USER_MODEL"
-
