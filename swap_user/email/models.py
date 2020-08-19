@@ -1,14 +1,9 @@
-from django.contrib.auth.models import (
-    AbstractBaseUser as DjangoAbstractBaseUser,
-    AbstractUser as DjangoAbstractUser,
-    PermissionsMixin,
-)
-from django.db.models.options import Options
+from django.contrib.auth.base_user import AbstractBaseUser as DjangoAbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin, AbstractUser as DjangoAbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from swap_user.managers.email import Manager
-from swap_user.settings import swap_user_settings
 
 
 class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
@@ -61,39 +56,6 @@ class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
     get_full_name = __str__
 
 
-class AbstractNamedEmailUser(AbstractEmailUser):
-    """
-    Use this abstract class if you want to add a user with
-    first name and last name.
-    """
-
-    first_name = models.CharField(
-        verbose_name=_("first name"),
-        max_length=50,
-        # maybe remove
-        blank=True,
-    )
-    last_name = models.CharField(
-        verbose_name=_("last name"),
-        max_length=100,
-        # maybe remove
-        blank=True,
-    )
-
+class EmailUser(AbstractEmailUser):
     class Meta:
-        abstract = True
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-
-
-class Meta:
-    swappable = "AUTH_USER_MODEL"
-
-
-base_classes = (swap_user_settings.EMAIL_USER_ABSTRACT_BASE_CLASS,)
-EmailUser = type("EmailUser", base_classes, {
-    "_meta": Options(Meta, app_label="swap_user"),
-    "__module__": "swap_user.models",
-    "__doc__": '\n    Point on this model if you want drop off EmailUser model with `email` field.\n    ',
-})
+        swappable = "AUTH_USER_MODEL"
