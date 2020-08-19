@@ -4,7 +4,7 @@ from django.utils.module_loading import import_string
 IMPORT_SETTINGS = [
     "EMAIL_USER_ABSTRACT_BASE_CLASS",
 ]
-DEFAULT_SETTINGS = {"EMAIL_USER_ABSTRACT_BASE_CLASS": "swap_user.models.email.AbstractEmailUser"}
+DEFAULT_SETTINGS = {"EMAIL_USER_ABSTRACT_BASE_CLASS": "swap_user.email.models.AbstractEmailUser"}
 NAMESPACE = "SWAP_USER"
 
 
