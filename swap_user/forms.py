@@ -15,8 +15,8 @@ class BaseUserForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        password_1 = self.cleaned_data["password_1"]
-        password_2 = self.cleaned_data["password_2"]
+        password_1 = cleaned_data["password_1"]
+        password_2 = cleaned_data["password_2"]
 
         if not password_1 or not password_2:
             return cleaned_data

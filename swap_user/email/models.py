@@ -1,5 +1,5 @@
 from django.contrib.auth.base_user import AbstractBaseUser as DjangoAbstractBaseUser
-from django.contrib.auth.models import AbstractUser as DjangoAbstractUser, PermissionsMixin
+from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -47,13 +47,11 @@ class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
 
     class Meta:
         abstract = True
-        verbose_name = "email user"
-        verbose_name_plural = "email users"
 
     def __str__(self):
         return self.email
 
-    clean = DjangoAbstractUser.clean
+    clean = DjangoAbstractBaseUser.clean
     get_short_name = __str__
     get_full_name = __str__
 
@@ -61,3 +59,5 @@ class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
 class EmailUser(AbstractEmailUser):
     class Meta:
         swappable = "AUTH_USER_MODEL"
+        verbose_name = "email user"
+        verbose_name_plural = "email users"
