@@ -15,10 +15,10 @@ class BaseUserForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        try:
-            password_1 = self.cleaned_data["password_1"]
-            password_2 = self.cleaned_data["password_2"]
-        except KeyError:
+        password_1 = self.cleaned_data["password_1"]
+        password_2 = self.cleaned_data["password_2"]
+
+        if not password_1 or not password_2:
             return cleaned_data
 
         if password_1 != password_2:
@@ -30,13 +30,11 @@ class BaseUserForm(forms.ModelForm):
 
     def save(self, commit=False):
         instance = super().save(commit)
+        password_1 = self.cleaned_data["password_1"]
 
-        try:
-            password_1 = self.cleaned_data["password_1"]
+        if password_1:
             instance.set_password(password_1)
-        except KeyError:
-            pass
-        finally:
-            instance.save()
+
+        instance.save()
 
         return instance
