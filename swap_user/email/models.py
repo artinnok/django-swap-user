@@ -47,6 +47,8 @@ class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
 
     class Meta:
         abstract = True
+        verbose_name = "email user"
+        verbose_name_plural = "email users"
 
     def __str__(self):
         return self.email

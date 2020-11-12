@@ -25,6 +25,8 @@ class AbstractNamedEmailUser(AbstractEmailUser):
 
     class Meta:
         abstract = True
+        verbose_name = "email user"
+        verbose_name_plural = "email users"
 
     def __str__(self):
         return f"{self.email} - {self.first_name} {self.last_name}"
