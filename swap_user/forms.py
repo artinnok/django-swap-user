@@ -3,10 +3,14 @@ from django import forms
 
 class BaseUserForm(forms.ModelForm):
     password_1 = forms.CharField(
-        label="Enter a new password.", widget=forms.PasswordInput, required=True,
+        label="Enter a new password.",
+        widget=forms.PasswordInput,
+        required=False,
     )
     password_2 = forms.CharField(
-        label="Repeat a new password.", widget=forms.PasswordInput, required=True,
+        label="Repeat a new password.",
+        widget=forms.PasswordInput,
+        required=False,
     )
 
     class Meta:
@@ -14,8 +18,12 @@ class BaseUserForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        password_1 = self.cleaned_data["password_1"]
-        password_2 = self.cleaned_data["password_2"]
+
+        try:
+            password_1 = self.cleaned_data["password_1"]
+            password_2 = self.cleaned_data["password_2"]
+        except KeyError:
+            return cleaned_data
 
         if password_1 != password_2:
             raise forms.ValidationError(
@@ -26,9 +34,13 @@ class BaseUserForm(forms.ModelForm):
 
     def save(self, commit=False):
         instance = super().save(commit)
-        password_1 = self.cleaned_data["password_1"]
 
-        instance.set_password(password_1)
-        instance.save()
+        try:
+            password_1 = self.cleaned_data["password_1"]
+            instance.set_password(password_1)
+        except KeyError:
+            pass
+        finally:
+            instance.save()
 
         return instance
