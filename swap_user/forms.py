@@ -14,13 +14,20 @@ class BaseUserForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-
         password_1 = cleaned_data["password_1"]
         password_2 = cleaned_data["password_2"]
 
-        if not password_1 or not password_2:
-            return cleaned_data
+        password_list = [password_1, password_2]
+        not_empty_password_list = [item for item in password_list if item]
 
+        # if one of passwords not filled - we are raising exception
+        if len(not_empty_password_list) == 1:
+            raise forms.ValidationError(
+                message="Provide both of passwords",
+                code="provide_both_passwords",
+            )
+
+        # if passwords doesn't match - we are raising exception
         if password_1 != password_2:
             raise forms.ValidationError(
                 message="Passwords should be same", code="password_should_be_same",
