@@ -23,8 +23,7 @@ class BaseUserForm(forms.ModelForm):
         # if one of passwords not filled - we are raising exception
         if len(not_empty_password_list) == 1:
             raise forms.ValidationError(
-                message="Provide both of passwords",
-                code="provide_both_passwords",
+                message="Provide both of passwords", code="provide_both_passwords",
             )
 
         # if passwords doesn't match - we are raising exception

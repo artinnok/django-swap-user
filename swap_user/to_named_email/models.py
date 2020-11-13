@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from swap_user.email.models import AbstractEmailUser
+from swap_user.to_email.models import AbstractEmailUser
 
 
 class AbstractNamedEmailUser(AbstractEmailUser):

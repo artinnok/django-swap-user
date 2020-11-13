@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 
-from swap_user.named_email.forms import NamedUserEmailForm
+from swap_user.to_named_email.forms import NamedUserEmailForm
 
 
 def test_empty_password():

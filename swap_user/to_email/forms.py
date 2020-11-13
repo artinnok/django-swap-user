@@ -1,5 +1,5 @@
-from swap_user.email.models import EmailUser
 from swap_user.forms import BaseUserForm
+from swap_user.to_email.models import EmailUser
 
 
 class EmailUserForm(BaseUserForm):
