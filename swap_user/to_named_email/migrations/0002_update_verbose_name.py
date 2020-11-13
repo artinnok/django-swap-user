@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("swap_user_to_named_email", "0001_initial"),
+        ("to_named_email", "0001_initial"),
     ]
 
     operations = [
