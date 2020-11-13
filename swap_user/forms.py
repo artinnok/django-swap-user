@@ -3,10 +3,10 @@ from django import forms
 
 class BaseUserForm(forms.ModelForm):
     password_1 = forms.CharField(
-        label="Enter a new password.", widget=forms.PasswordInput, required=False,
+        label="Enter a new password", widget=forms.PasswordInput, required=False,
     )
     password_2 = forms.CharField(
-        label="Repeat a new password.", widget=forms.PasswordInput, required=False,
+        label="Repeat a new password", widget=forms.PasswordInput, required=False,
     )
 
     class Meta:
