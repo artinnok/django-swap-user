@@ -209,23 +209,8 @@ py = ">=1.5.0"
 wcwidth = "*"
 
 [package.extras]
-checkqa-mypy = ["mypy (v0.761)"]
+checkqa-mypy = ["mypy (==v0.761)"]
 testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xmlschema"]
-
-[[package]]
-name = "pytest-django"
-version = "4.1.0"
-description = "A Django plugin for pytest."
-category = "dev"
-optional = false
-python-versions = ">=3.5"
-
-[package.dependencies]
-pytest = ">=5.4.0"
-
-[package.extras]
-docs = ["sphinx", "sphinx-rtd-theme"]
-testing = ["django", "django-configurations (>=2.0)"]
 
 [[package]]
 name = "pytz"
@@ -306,7 +291,7 @@ testing = ["jaraco.itertools", "func-timeout"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "b266783f6df047c82a28d8a8326c12cba56a528a6606243ebbca0acd0a705f34"
+content-hash = "ea17d0fbfbee5158b23d392fad1c9f50e9086ace7fc931d678e5c62aaa4da5f2"
 
 [metadata.files]
 appdirs = [
@@ -392,10 +377,6 @@ pyparsing = [
 pytest = [
     {file = "pytest-5.4.3-py3-none-any.whl", hash = "sha256:5c0db86b698e8f170ba4582a492248919255fcd4c79b1ee64ace34301fb589a1"},
     {file = "pytest-5.4.3.tar.gz", hash = "sha256:7979331bfcba207414f5e1263b5a0f8f521d0f457318836a7355531ed1a4c7d8"},
-]
-pytest-django = [
-    {file = "pytest-django-4.1.0.tar.gz", hash = "sha256:26f02c16d36fd4c8672390deebe3413678d89f30720c16efb8b2a6bf63b9041f"},
-    {file = "pytest_django-4.1.0-py3-none-any.whl", hash = "sha256:10e384e6b8912ded92db64c58be8139d9ae23fb8361e5fc139d8e4f8fc601bc2"},
 ]
 pytz = [
     {file = "pytz-2020.1-py2.py3-none-any.whl", hash = "sha256:a494d53b6d39c3c6e44c3bec237336e14305e4f29bbf800b599253057fbb79ed"},

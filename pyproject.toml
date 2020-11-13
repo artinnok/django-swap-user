@@ -27,7 +27,7 @@ src_paths = "swap_user"
 
 [tool.poetry]
 name = "django-swap-user"
-version = "0.2.6"
+version = "0.3.0"
 description = "(Beta) Simple and flexible way to swap default Django User"
 authors = ["Artem Innokentiev <artinnok@protonmail.com>"]
 maintainers = ["Artem Innokentiev <artinnok@protonmail.com>"]
@@ -44,7 +44,7 @@ keywords = [
   "username",
   "phone",
   "mixins",
-  "authentication"
+  "authentication",
 ]
 license = "MIT"
 repository = "http://github.com/artinnok/django-swap-user"
@@ -61,7 +61,6 @@ black = "^19.10b0"
 isort = "^5.1.4"
 pytest = "^5.4.3"
 mypy = "^0.782"
-pytest-django = "^4.1.0"
 
 [build-system]
 requires = ["poetry>=1.0.8"]
