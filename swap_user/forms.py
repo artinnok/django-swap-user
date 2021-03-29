@@ -1,6 +1,5 @@
 from django import forms
 
-EMPTY_VALUE = ""
 WIDGET = forms.PasswordInput
 
 
@@ -10,20 +9,16 @@ class BaseUserOptionalFieldsForm(forms.ModelForm):
     This form suitable for edit view in admin panel.
     """
 
-    password_1 = forms.CharField(
-        label="Enter a new password", widget=WIDGET, required=False, empty_value=EMPTY_VALUE,
-    )
-    password_2 = forms.CharField(
-        label="Repeat a new password", widget=WIDGET, required=False, empty_value=EMPTY_VALUE,
-    )
+    password_1 = forms.CharField(label="Enter a new password", widget=WIDGET, required=False,)
+    password_2 = forms.CharField(label="Repeat a new password", widget=WIDGET, required=False,)
 
     class Meta:
         exclude = ["password"]
 
     def clean(self):
         cleaned_data = super().clean()
-        password_1 = cleaned_data["password_1"]
-        password_2 = cleaned_data["password_2"]
+        password_1 = cleaned_data.get("password_1", "")
+        password_2 = cleaned_data.get("password_2", "")
 
         password_list = [password_1, password_2]
         not_empty_password_list = [item for item in password_list if item]
@@ -60,12 +55,8 @@ class BaseUserRequiredFieldsForm(BaseUserOptionalFieldsForm):
     This form suitable for add view in admin panel.
     """
 
-    password_1 = forms.CharField(
-        label="Enter a new password", widget=WIDGET, empty_value=EMPTY_VALUE
-    )
-    password_2 = forms.CharField(
-        label="Repeat a new password", widget=WIDGET, empty_value=EMPTY_VALUE
-    )
+    password_1 = forms.CharField(label="Enter a new password", widget=WIDGET,)
+    password_2 = forms.CharField(label="Repeat a new password", widget=WIDGET,)
 
     class Meta:
         exclude = ["password"]
