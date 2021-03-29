@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 
-from swap_user.to_named_email.forms import NamedUserEmailForm
+from swap_user.to_named_email.forms import NamedUserEmailOptionalFieldsForm
 
 
 def test_save_field():
@@ -10,7 +10,7 @@ def test_save_field():
         "first_name": "Hello",
         "last_name": "World",
     }
-    form = NamedUserEmailForm(data=data, instance=instance)
+    form = NamedUserEmailOptionalFieldsForm(data=data, instance=instance)
 
     assert form.is_valid() is True
 
@@ -21,7 +21,7 @@ def test_one_password():
         "email": "hello@world.com",
         "password_1": "Hello",
     }
-    form = NamedUserEmailForm(data=data, instance=instance)
+    form = NamedUserEmailOptionalFieldsForm(data=data, instance=instance)
 
     assert form.is_valid() is False
     assert (
@@ -37,7 +37,7 @@ def test_not_matching_passwords():
         "password_1": "Hello",
         "password_2": "World",
     }
-    form = NamedUserEmailForm(data=data, instance=instance)
+    form = NamedUserEmailOptionalFieldsForm(data=data, instance=instance)
 
     assert form.is_valid() is False
     assert (
@@ -53,6 +53,6 @@ def test_matching_passwords():
         "password_1": "Hello",
         "password_2": "Hello",
     }
-    form = NamedUserEmailForm(data=data, instance=instance)
+    form = NamedUserEmailOptionalFieldsForm(data=data, instance=instance)
 
     assert form.is_valid() is True

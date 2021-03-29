@@ -1,7 +1,12 @@
 from django import forms
 
 
-class BaseUserForm(forms.ModelForm):
+class BaseUserOptionalFieldsForm(forms.ModelForm):
+    """
+    Base model form with optional `password_1` and `password_2` fields.
+    This form suitable for edit view in admin panel.
+    """
+
     password_1 = forms.CharField(
         label="Enter a new password", widget=forms.PasswordInput, required=False,
     )
@@ -44,3 +49,16 @@ class BaseUserForm(forms.ModelForm):
         instance.save()
 
         return instance
+
+
+class BaseUserRequiredFieldsForm(BaseUserOptionalFieldsForm):
+    """
+    Base model form with required `password_1` and `password_2` fields.
+    This form suitable for add view in admin panel.
+    """
+
+    password_1 = forms.CharField(label="Enter a new password", widget=forms.PasswordInput,)
+    password_2 = forms.CharField(label="Repeat a new password", widget=forms.PasswordInput,)
+
+    class Meta:
+        exclude = ["password"]
