@@ -1,5 +1,8 @@
 from django import forms
 
+EMPTY_VALUE = ""
+WIDGET = forms.PasswordInput
+
 
 class BaseUserOptionalFieldsForm(forms.ModelForm):
     """
@@ -8,10 +11,10 @@ class BaseUserOptionalFieldsForm(forms.ModelForm):
     """
 
     password_1 = forms.CharField(
-        label="Enter a new password", widget=forms.PasswordInput, required=False,
+        label="Enter a new password", widget=WIDGET, required=False, empty_value=EMPTY_VALUE,
     )
     password_2 = forms.CharField(
-        label="Repeat a new password", widget=forms.PasswordInput, required=False,
+        label="Repeat a new password", widget=WIDGET, required=False, empty_value=EMPTY_VALUE,
     )
 
     class Meta:
@@ -57,8 +60,12 @@ class BaseUserRequiredFieldsForm(BaseUserOptionalFieldsForm):
     This form suitable for add view in admin panel.
     """
 
-    password_1 = forms.CharField(label="Enter a new password", widget=forms.PasswordInput,)
-    password_2 = forms.CharField(label="Repeat a new password", widget=forms.PasswordInput,)
+    password_1 = forms.CharField(
+        label="Enter a new password", widget=WIDGET, empty_value=EMPTY_VALUE
+    )
+    password_2 = forms.CharField(
+        label="Repeat a new password", widget=WIDGET, empty_value=EMPTY_VALUE
+    )
 
     class Meta:
         exclude = ["password"]
