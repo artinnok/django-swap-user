@@ -24,6 +24,7 @@ multi_line_output = 3
 known_django = "django"
 profile = "django"
 src_paths = "swap_user"
+lines_after_imports = 2
 
 [tool.poetry]
 name = "django-swap-user"
