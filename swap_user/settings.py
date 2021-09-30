@@ -1,6 +1,7 @@
 from django.conf import settings as django_settings
 from django.utils.module_loading import import_string
 
+
 IMPORT_SETTINGS = [
     "EMAIL_USER_ABSTRACT_BASE_CLASS",
 ]

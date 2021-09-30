@@ -1,5 +1,6 @@
 from django import forms
 
+
 WIDGET = forms.PasswordInput
 
 
