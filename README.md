@@ -13,7 +13,7 @@ pip install django-swap-user
 ## Basic usage
 1. Choose one of models and settings from table:
 
-| Application name | Username field | Description                                                           | INSTALLED_APPS                                 | AUTH_USER_MODEL                   |
+| Application name | Username field | Description                                                           | `INSTALLED_APPS`                                 | `AUTH_USER_MODEL`                   |
 |------------------|----------------|-----------------------------------------------------------------------|------------------------------------------------|-----------------------------------|
 | `to_email`       | `email`        | User with `email` username                                            | ```"swap_user", "swap_user.to_email",```       | `"to_email.EmailUser"`            |
 | `to_named_email` | `email`        | User with `email` username, `first_name` and `last_name` extra fields | ```"swap_user", "swap_user.to_named_email",``` | `"to_named_email.NamedEmailUser"` |
