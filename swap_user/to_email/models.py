@@ -19,7 +19,8 @@ class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
     Provides attributes:
     - USERNAME_FIELD
     - EMAIL_FIELD
-    - REQUIRED_FIELDS
+
+    REQUIRED_FIELDS by default will include USERNAME_FIELD and password.
     """
 
     email = models.EmailField(

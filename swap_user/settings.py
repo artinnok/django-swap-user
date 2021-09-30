@@ -7,6 +7,13 @@ IMPORT_SETTINGS = [
 DEFAULT_SETTINGS = {"EMAIL_USER_ABSTRACT_BASE_CLASS": "swap_user.to_email.models.AbstractEmailUser"}
 NAMESPACE = "SWAP_USER"
 
+# Add default values and create working mapping
+MAPPING = {
+    "A": "PHONENUMBER_DB_FORMAT",
+    "B": "PHONENUMBER_DEFAULT_REGION",
+    "C": "PHONENUMBER_DEFAULT_FORMAT"
+}
+
 
 class SwapUserSettings:
     def make_import(self, item, path):

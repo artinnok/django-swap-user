@@ -14,7 +14,7 @@ __title__ = "Django Swap User"
 __version__ = "0.3.5"
 __author__ = "Artem Innokentiev"
 __license__ = "MIT"
-__copyright__ = "Copyright 2020 © Artem Innokentiev"
+__copyright__ = "Copyright 2021 © Artem Innokentiev"
 
 VERSION = __version__
 
