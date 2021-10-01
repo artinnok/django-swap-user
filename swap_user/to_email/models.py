@@ -3,7 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from swap_user.managers.email import EmailManager
+from swap_user.to_email.managers import EmailManager
 
 
 class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):

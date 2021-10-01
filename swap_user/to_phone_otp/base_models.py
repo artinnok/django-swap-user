@@ -5,13 +5,18 @@ from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
 
-from swap_user.to_phone.managers import PhoneManager
+from swap_user.to_phone_otp.managers import PhoneOTPManager
 
 
-class AbstractPhoneUser(PermissionsMixin, DjangoAbstractBaseUser):
+class AbstractPhoneOTPUser(PermissionsMixin):
     """
     Abstract PhoneUser implementation - subclass this class to provide your own
     custom User class with `phone` field.
+
+    Main difference between this model and other models - that it doesn't
+    have a `password` field.
+    You need to use OTP (One Time Password) to authenticate user
+    of this model and this require extra work from you on backend.
 
     Provides fields:
     - phone
@@ -43,7 +48,7 @@ class AbstractPhoneUser(PermissionsMixin, DjangoAbstractBaseUser):
         help_text=_("Designates whether the user can log into this admin site."),
     )
 
-    objects = PhoneManager()
+    objects = PhoneOTPManager()
 
     USERNAME_FIELD = "phone"
     # Fix `django.contrib.auth.forms.PasswordResetForm`
@@ -56,6 +61,12 @@ class AbstractPhoneUser(PermissionsMixin, DjangoAbstractBaseUser):
         return self.phone
 
     clean = DjangoAbstractBaseUser.clean
+    get_username = DjangoAbstractBaseUser.get_username
+    natural_key = DjangoAbstractBaseUser.natural_key
+    is_anonymous = DjangoAbstractBaseUser.is_anonymous
+    is_authenticated = DjangoAbstractBaseUser.is_authenticated
+    get_email_field_name = DjangoAbstractBaseUser.get_email_field_name
+    normalize_username = DjangoAbstractBaseUser.normalize_username
 
     get_short_name = __str__
     get_full_name = __str__
