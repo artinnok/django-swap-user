@@ -30,10 +30,7 @@ class AbstractPhoneOTPUser(PermissionsMixin):
     REQUIRED_FIELDS by default will include USERNAME_FIELD and password.
     """
 
-    phone = PhoneNumberField(
-        verbose_name=_("phone number"),
-        unique=True,
-    )
+    phone = PhoneNumberField(verbose_name=_("phone number"), unique=True,)
     is_active = models.BooleanField(
         verbose_name=_("active"),
         default=False,
@@ -47,9 +44,11 @@ class AbstractPhoneOTPUser(PermissionsMixin):
         default=False,
         help_text=_("Designates whether the user can log into this admin site."),
     )
+    last_login = models.DateTimeField(_("last login"), blank=True, null=True)
 
     objects = PhoneOTPManager()
 
+    REQUIRED_FIELDS = []
     USERNAME_FIELD = "phone"
     # Fix `django.contrib.auth.forms.PasswordResetForm`
     EMAIL_FIELD = "email"

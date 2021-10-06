@@ -5,7 +5,13 @@ from django.utils.module_loading import import_string
 IMPORT_SETTINGS = [
     "EMAIL_USER_ABSTRACT_BASE_CLASS",
 ]
-DEFAULT_SETTINGS = {"EMAIL_USER_ABSTRACT_BASE_CLASS": "swap_user.to_email.models.AbstractEmailUser"}
+DEFAULT_SETTINGS = {
+    "EMAIL_USER_ABSTRACT_BASE_CLASS": "swap_user.to_email.models.AbstractEmailUser",
+    "OTP_PATTERN": "user:otp:{user_id}",
+    "OTP_TIMEOUT": 60,
+    "OTP_ALPHABET": "0123456789",
+    "OTP_LENGTH": 5,
+}
 NAMESPACE = "SWAP_USER"
 
 # Add default values and create working mapping
