@@ -9,3 +9,5 @@ class PhoneOTPUserConfig(AppConfig):
     label = "to_phone_otp"
     # `verbose name` for Admin panel display
     verbose_name = "Django Swap User"
+    # we are maintaining historical behavior
+    default_auto_field = "django.db.models.AutoField"

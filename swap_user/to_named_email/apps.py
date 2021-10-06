@@ -9,3 +9,5 @@ class NamedEmailUserConfig(AppConfig):
     label = "to_named_email"
     # `verbose name` for Admin panel display
     verbose_name = "Django Swap User"
+    # we are maintaining historical behavior
+    default_auto_field = "django.db.models.AutoField"
