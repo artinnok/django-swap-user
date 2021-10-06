@@ -25,10 +25,7 @@ class AbstractPhoneUser(PermissionsMixin, DjangoAbstractBaseUser):
     REQUIRED_FIELDS by default will include USERNAME_FIELD and password.
     """
 
-    phone = PhoneNumberField(
-        verbose_name=_("phone number"),
-        unique=True,
-    )
+    phone = PhoneNumberField(verbose_name=_("phone number"), unique=True,)
     is_active = models.BooleanField(
         verbose_name=_("active"),
         default=False,

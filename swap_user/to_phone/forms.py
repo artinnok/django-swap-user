@@ -4,7 +4,7 @@ from swap_user.to_phone.models import PhoneUser
 
 class EditPhoneUserForm(BaseUserOptionalFieldsForm):
     """
-    Form for - EmailUser model.
+    Form for - PhoneUser model.
     With optional `password_1` and `password_2` fields.
 
     Suitable for edit user pages.
@@ -16,7 +16,7 @@ class EditPhoneUserForm(BaseUserOptionalFieldsForm):
 
 class AddPhoneUserForm(BaseUserRequiredFieldsForm):
     """
-    Form for - EmailUser model.
+    Form for - PhoneUser model.
     With required `password_1` and `password_2` fields.
 
     Suitable for user add pages.

@@ -23,10 +23,7 @@ class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
     REQUIRED_FIELDS by default will include USERNAME_FIELD and password.
     """
 
-    email = models.EmailField(
-        verbose_name=_("email address"),
-        unique=True,
-    )
+    email = models.EmailField(verbose_name=_("email address"), unique=True,)
     is_active = models.BooleanField(
         verbose_name=_("active"),
         default=False,
