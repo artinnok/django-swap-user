@@ -57,7 +57,7 @@ class AbstractPhoneOTPUser(PermissionsMixin):
         abstract = True
 
     def __str__(self):
-        return self.phone
+        return self.phone.as_e164
 
     clean = DjangoAbstractBaseUser.clean
     get_username = DjangoAbstractBaseUser.get_username

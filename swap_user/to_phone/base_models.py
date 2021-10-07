@@ -50,7 +50,7 @@ class AbstractPhoneUser(PermissionsMixin, DjangoAbstractBaseUser):
         abstract = True
 
     def __str__(self):
-        return self.phone
+        return self.phone.as_e164
 
     clean = DjangoAbstractBaseUser.clean
 

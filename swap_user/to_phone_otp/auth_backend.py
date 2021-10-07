@@ -5,7 +5,7 @@ from swap_user.to_phone_otp.models import PhoneOTPUser
 
 
 class PhoneOTPAuthBackend:
-    def authenticate(self, request, phone: str, otp_from_user_input: str, **credentials):
+    def authenticate(self, request, phone: str, otp_from_user: str, **credentials):
         """
         Authenticates used based on OTP (One Time Password) because current user model
         doesn't have a `password` field.
@@ -20,7 +20,7 @@ class PhoneOTPAuthBackend:
             cache_key = generate_otp_cache_key(user_id)
             otp_value_from_cache = cache.get(cache_key)
 
-            if otp_value_from_cache != otp_from_user_input:
+            if otp_value_from_cache != otp_from_user:
                 return None
 
             return user
