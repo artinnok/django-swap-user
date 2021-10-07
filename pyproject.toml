@@ -27,7 +27,7 @@ lines_after_imports = 2
 
 [tool.poetry]
 name = "django-swap-user"
-version = "0.4.0"
+version = "0.4.1"
 description = "(Beta) Simple and flexible way to swap default Django User"
 authors = ["Artem Innokentiev <artinnok@protonmail.com>"]
 maintainers = ["Artem Innokentiev <artinnok@protonmail.com>"]
@@ -54,7 +54,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-django = "~2.2"
+django = ">=2.2"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "^5.2.0"}
 
 [tool.poetry.dev-dependencies]
