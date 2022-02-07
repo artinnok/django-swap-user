@@ -6,7 +6,7 @@ class NamedEmailUserConfig(AppConfig):
     name = "swap_user.to_named_email"
     # `label` used for relations reference in format `app_label.Model`
     # also it used for `AUTH_USER_MODEL` settings and fixtures definition
-    label = "to_named_email"
+    label = "swap_to_named_email"
     # `verbose name` for Admin panel display
     verbose_name = "Django Swap User"
     # we are maintaining historical behavior
