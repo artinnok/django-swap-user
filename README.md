@@ -13,11 +13,12 @@ pip install django-swap-user
 ## Basic usage
 1. Choose one of models and settings from table:
 
-| Application name | Username field | Description                                                           | `INSTALLED_APPS`                                 | `AUTH_USER_MODEL`                   |
+| Application name | Username field | Description                                                           | `INSTALLED_APPS`                                 | `AUTH_USER_MODEL`               |
 |------------------|----------------|-----------------------------------------------------------------------|------------------------------------------------|-----------------------------------|
 | `to_email`       | `email`        | User with `email` username                                            | ```"swap_user", "swap_user.to_email",```       | `"to_email.EmailUser"`            |
 | `to_named_email` | `email`        | User with `email` username, `first_name` and `last_name` extra fields | ```"swap_user", "swap_user.to_named_email",``` | `"to_named_email.NamedEmailUser"` |
 | `to_phone`       | `phone`        | User with `phone` username                                            | ```"swap_user", "swap_user.to_phone",```       | `"to_phone.PhoneUser"`            |
+| `to_phone_otp`   | `phone`        | User with `phone` username  and OTP authentication                    | ```"swap_user", "swap_user.to_phone_otp",```   | `"to_phone.PhoneOTPUser"`         |
 
 2. Add corresponding app to `INSTALLED_APPS`:
 ```python
@@ -39,6 +40,7 @@ Application `swap_user` split into 3 apps:
   - `to_email` - provides user with `email` username field
   - `to_named_email` - provides user with `email` username field and with `first_name`, `last_name` extra fields
   - `to_phone` - provides user with `phone` username field
+  - `to_phone_otp` - provides user with `phone` username field and with OTP authentication
   
   
 ## Why?

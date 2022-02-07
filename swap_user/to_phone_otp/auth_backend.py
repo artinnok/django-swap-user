@@ -10,7 +10,7 @@ class PhoneOTPAuthBackend:
         Authenticates used based on OTP (One Time Password) because current user model
         doesn't have a `password` field.
 
-        Reference - Reference - https://docs.djangoproject.com/en/dev/topics/auth/customizing/#writing-an-authentication-backend
+        Reference - https://docs.djangoproject.com/en/dev/topics/auth/customizing/#writing-an-authentication-backend
         """
 
         try:
@@ -35,6 +35,8 @@ class PhoneOTPAuthBackend:
         """
 
         try:
-            return PhoneOTPUser.objects.get(pk=user_id)
+            user = PhoneOTPUser.objects.get(pk=user_id)
+
+            return user
         except PhoneOTPUser.DoesNotExist:
             return None
