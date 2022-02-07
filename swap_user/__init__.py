@@ -11,10 +11,10 @@
 """
 
 __title__ = "Django Swap User"
-__version__ = "0.5.1"
+__version__ = "0.5.2"
 __author__ = "Artem Innokentiev"
 __license__ = "MIT"
-__copyright__ = "Copyright 2021 © Artem Innokentiev"
+__copyright__ = "Copyright 2022 © Artem Innokentiev"
 
 VERSION = __version__
 

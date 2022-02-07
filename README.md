@@ -13,19 +13,19 @@ pip install django-swap-user
 ## Basic usage
 1. Choose one of models that suits for you and copy related settings from the table:
 
-| Application name      | Username field | Description                                                           | `INSTALLED_APPS`                          | `AUTH_USER_MODEL`                      |
-|-----------------------|----------------|-----------------------------------------------------------------------|-------------------------------------------|----------------------------------------|
-| `swap_to_email`       | `email`        | User with `email` username                                            | ```"swap_user", "swap_to_email",```       | `"to_email.swap_to_email"`             |
-| `swap_to_named_email` | `email`        | User with `email` username, `first_name` and `last_name` extra fields | ```"swap_user", "swap_to_named_email",``` | `"swap_to_named_email.NamedEmailUser"` |
-| `swap_to_phone`       | `phone`        | User with `phone` username                                            | ```"swap_user", "swap_to_phone",```       | `"swap_to_phone.PhoneUser"`            |
-| `swap_to_phone_otp`   | `phone`        | User with `phone` username  and OTP authentication                    | ```"swap_user", "swap_to_phone_otp",```   | `"swap_to_phone_otp.PhoneOTPUser"`     |
+| Application name      | Username field | Description                                                           | `INSTALLED_APPS`                               | `AUTH_USER_MODEL`                      |
+|-----------------------|----------------|-----------------------------------------------------------------------|------------------------------------------------|----------------------------------------|
+| `swap_to_email`       | `email`        | User with `email` username                                            | ```"swap_user", "swap_user.to_email",```       | `"to_email.swap_to_email"`             |
+| `swap_to_named_email` | `email`        | User with `email` username, `first_name` and `last_name` extra fields | ```"swap_user", "swap_user.to_named_email",``` | `"swap_to_named_email.NamedEmailUser"` |
+| `swap_to_phone`       | `phone`        | User with `phone` username                                            | ```"swap_user", "swap_user.to_phone",```       | `"swap_to_phone.PhoneUser"`            |
+| `swap_to_phone_otp`   | `phone`        | User with `phone` username  and OTP authentication                    | ```"swap_user", "swap_user.to_phone_otp",```   | `"swap_to_phone_otp.PhoneOTPUser"`     |
 
 2. Add corresponding app to `INSTALLED_APPS`:
 ```python
 INSTALLED_APPS = [
     ...
     "swap_user",
-    "swap_to_named_email",
+    "swap_user.to_named_email",
     ...
 ]
 ```
@@ -75,5 +75,8 @@ This is a harder way of doing things, but it is still possible to do:
 - Remove all records from `django_migrations` table, for example with SQL `TRUNCATE django_migrations`
 - Now we have a "clean" state, so we can change default model
 - Generate new migrations for all of your applications - `python manage.py makemigrations` 
-- Install this library and follow all instructions
-- Now we need to [fake migrate](https://docs.djangoproject.com/en/4.0/ref/django-admin/#cmdoption-migrate-fake) because we already have all the tables with data - `python manage.py migrate --fake`
+- Now we need to [fake migrate](https://docs.djangoproject.com/en/4.0/ref/django-admin/#cmdoption-migrate-fake) because we already have all the tables with data
+- First fake the `auth` application because we are depending from this one - `python manage.py migrate --fake auth`
+- Install this library, follow instructions and apply migrations
+- Then fake rest of migrations we have - `python manage.py migrate --fake`
+- Run your application!
