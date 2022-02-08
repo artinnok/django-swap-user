@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
 
-class EmailOPTUserConfig(AppConfig):
+class EmailOTPUserConfig(AppConfig):
     # `name` for INSTALLED_APPS
     name = "swap_user.to_email_otp"
     # `label` used for relations reference in format `app_label.Model`
