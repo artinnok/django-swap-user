@@ -13,13 +13,13 @@ pip install django-swap-user
 ## Basic usage
 1. Choose one of models that suits for you and copy related settings from the table:
 
-| Application name      | Username field | Description                                                            | `INSTALLED_APPS`                               | `AUTH_USER_MODEL`                      |
-|-----------------------|----------------|------------------------------------------------------------------------|------------------------------------------------|----------------------------------------|
-| `swap_to_email`       | `email`        | User with `email` username                                             | ```"swap_user", "swap_user.to_email",```       | `"swap_to_email.EmailUser"`            |
-| `swap_to_email_otp`   | `email`        | User with `email` username, without `password` and OPT authentication  | ```"swap_user", "swap_user.to_email_otp",```   | `"swap_to_email_otp.EmailOTPUser"`     |
-| `swap_to_named_email` | `email`        | User with `email` username, `first_name` and `last_name` extra fields  | ```"swap_user", "swap_user.to_named_email",``` | `"swap_to_named_email.NamedEmailUser"` |
-| `swap_to_phone`       | `phone`        | User with `phone` username                                             | ```"swap_user", "swap_user.to_phone",```       | `"swap_to_phone.PhoneUser"`            |
-| `swap_to_phone_otp`   | `phone`        | User with `phone` username, without `password`  and OTP authentication | ```"swap_user", "swap_user.to_phone_otp",```   | `"swap_to_phone_otp.PhoneOTPUser"`     |
+| Application name      | Username field | Description                                                            | `INSTALLED_APPS`                               | `AUTH_USER_MODEL`                      | `AUTHENTICATION_BACKENDS`                                   |
+|-----------------------|----------------|------------------------------------------------------------------------|------------------------------------------------|----------------------------------------|-------------------------------------------------------------|
+| `swap_to_email`       | `email`        | User with `email` username                                             | ```"swap_user", "swap_user.to_email",```       | `"swap_to_email.EmailUser"`            | no extra backend                                            |                                  
+| `swap_to_email_otp`   | `email`        | User with `email` username, without `password` and OPT authentication  | ```"swap_user", "swap_user.to_email_otp",```   | `"swap_to_email_otp.EmailOTPUser"`     | `"swap_user.to_email_otp.auth_backend.EmailOTPAuthBackend"` | 
+| `swap_to_named_email` | `email`        | User with `email` username, `first_name` and `last_name` extra fields  | ```"swap_user", "swap_user.to_named_email",``` | `"swap_to_named_email.NamedEmailUser"` | no extra backend                                            |                                           
+| `swap_to_phone`       | `phone`        | User with `phone` username                                             | ```"swap_user", "swap_user.to_phone",```       | `"swap_to_phone.PhoneUser"`            | no extra backend                                            |                                            
+| `swap_to_phone_otp`   | `phone`        | User with `phone` username, without `password`  and OTP authentication | ```"swap_user", "swap_user.to_phone_otp",```   | `"swap_to_phone_otp.PhoneOTPUser"`     | `"swap_user.to_phone_otp.auth_backend.PhoneOTPAuthBackend"` | 
 
 2. Add corresponding app to `INSTALLED_APPS`:
 ```python
