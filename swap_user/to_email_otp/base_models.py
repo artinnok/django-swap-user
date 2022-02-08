@@ -47,7 +47,7 @@ class AbstractEmailOTPUser(PermissionsMixin):
     objects = EmailOTPManager()
 
     REQUIRED_FIELDS = []
-    USERNAME_FIELD = "phone"
+    USERNAME_FIELD = "email"
     # Fix `django.contrib.auth.forms.PasswordResetForm`
     EMAIL_FIELD = "email"
 

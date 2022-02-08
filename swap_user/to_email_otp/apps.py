@@ -11,4 +11,3 @@ class EmailOTPUserConfig(AppConfig):
     verbose_name = "Django Swap User"
     # we are maintaining historical behavior
     default_auto_field = "django.db.models.AutoField"
-

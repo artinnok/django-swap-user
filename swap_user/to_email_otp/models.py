@@ -3,7 +3,7 @@ from swap_user.to_email_otp.base_models import AbstractEmailOTPUser
 
 class EmailOTPUser(AbstractEmailOTPUser):
     """
-    Concrete implementation of user with phone login.
+    Concrete implementation of user with email login.
     """
 
     class Meta:
