@@ -17,7 +17,7 @@ def generate_otp():
     return otp
 
 
-def generate_otp_cache_key(user_id):
+def get_otp_cache_key(user_id):
     """
     Generates cache key for storing OTP (One Time Password) per user.
     """

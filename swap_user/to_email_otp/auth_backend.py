@@ -1,11 +1,11 @@
 from django.core.cache import cache
 
-from swap_user.to_phone_otp.helpers import get_otp_cache_key
-from swap_user.to_phone_otp.models import PhoneOTPUser
+from swap_user.to_email_otp.helpers import get_otp_cache_key
+from swap_user.to_email_otp.models import EmailOTPUser
 
 
-class PhoneOTPAuthBackend:
-    def authenticate(self, request, phone: str, otp_from_user: str, **credentials):
+class EmailOTPAuthBackend:
+    def authenticate(self, request, email: str, otp_from_user: str, **credentials):
         """
         Authenticates used based on OTP (One Time Password) because current user model
         doesn't have a `password` field.
@@ -14,7 +14,7 @@ class PhoneOTPAuthBackend:
         """
 
         try:
-            user = PhoneOTPUser.objects.get(phone=phone)
+            user = EmailOTPUser.objects.get(email=email)
             user_id = user.id
 
             cache_key = get_otp_cache_key(user_id)
@@ -24,7 +24,7 @@ class PhoneOTPAuthBackend:
                 return None
 
             return user
-        except PhoneOTPUser.DoesNotExist:
+        except EmailOTPUser.DoesNotExist:
             return None
 
     def get_user(self, user_id: int):
@@ -35,8 +35,8 @@ class PhoneOTPAuthBackend:
         """
 
         try:
-            user = PhoneOTPUser.objects.get(pk=user_id)
+            user = EmailOTPUser.objects.get(pk=user_id)
 
             return user
-        except PhoneOTPUser.DoesNotExist:
+        except EmailOTPUser.DoesNotExist:
             return None
