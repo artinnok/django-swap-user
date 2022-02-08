@@ -18,7 +18,7 @@ class EmailOTPManager(BaseUserManager):
 
         return self._create(email, **extra_fields)
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, email, **extra_fields):
         """
         Creates super user.
         """
