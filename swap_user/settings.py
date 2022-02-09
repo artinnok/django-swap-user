@@ -2,13 +2,17 @@ from django.conf import settings as django_settings
 from django.utils.module_loading import import_string
 
 
+#
+# Mostly inspired by `rest_framework.settings`
+#
+
 IMPORT_SETTINGS = [
     "EMAIL_USER_ABSTRACT_BASE_CLASS",
     "OTP_SENDER_CLASS",
 ]
 DEFAULT_SETTINGS = {
     "EMAIL_USER_ABSTRACT_BASE_CLASS": "swap_user.to_email.models.AbstractEmailUser",
-    "OTP_SENDER_CLASS": "swap_user.to_email_otp.senders.StdOutOTPSender",
+    "OTP_SENDER_CLASS": "swap_user.senders.StdOutOTPSender",
     "OTP_PATTERN": "user:otp:{user_id}",
     "OTP_TIMEOUT": 60,
     "OTP_ALPHABET": "0123456789",
@@ -25,6 +29,10 @@ MAPPING = {
 
 
 class SwapUserSettings:
+    """
+    Settings object mostly inspired from `rest_framework.settings`.
+    """
+
     def make_import(self, item, path):
         val = import_string(path)
         setattr(self, item, val)

@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.views.generic.edit import FormView
 
-from swap_user.to_email_otp.forms import CheckOTPForm, GetOTPForm
 from swap_user.services import GetOTPService
+from swap_user.to_email_otp.forms import CheckOTPForm, GetOTPForm
 
 
 UserModel = get_user_model()

@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     ...
 ]
 ```
+
 3. Change `AUTH_USER_MODEL` to corresponding:
 ```python
 AUTH_USER_MODEL = "swap_to_email.EmailUser"
