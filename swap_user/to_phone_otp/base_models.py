@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
 
-from swap_user.common.helpers import check_password
+from swap_user.helpers import check_password
 from swap_user.to_phone_otp.managers import PhoneOTPUserManager
 
 
