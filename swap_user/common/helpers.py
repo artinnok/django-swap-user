@@ -1,9 +1,11 @@
 import secrets
 
+from django.core.cache import cache
+
 from swap_user.settings import swap_user_settings
 
 
-def generate_otp():
+def generate_otp() -> str:
     """
     Private method that generates OTP (One Time Password).
     """
@@ -17,7 +19,17 @@ def generate_otp():
     return otp
 
 
-def get_otp_cache_key(user_id):
+def set_otp_to_cache(otp_key: str, otp_value: str, expire=swap_user_settings.OTP_TIMEOUT) -> str:
+    """
+    Saves OTP (One Time Password) into cache with provided key.
+    """
+
+    cache.set(otp_key, otp_value, expire)
+
+    return otp_value
+
+
+def get_otp_cache_key(user_id: str) -> str:
     """
     Generates cache key for storing OTP (One Time Password) per user.
     """
