@@ -1,6 +1,17 @@
 {% extends "admin/login.html" %}
 {% load i18n static %}
 
+{% block extrastyle %}
+  {{ block.super }}
+  <style>
+    .form-row > input {
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
   {% if form.errors and not form.non_field_errors %}
   <p class="errornote">
