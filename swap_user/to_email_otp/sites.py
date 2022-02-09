@@ -17,7 +17,7 @@ class EmailOTPUserSite(admin.AdminSite):
             **(extra_context or {}),
         }
         defaults = {
-            'extra_context': context,
+            "extra_context": context,
         }
         # end of copied part
 

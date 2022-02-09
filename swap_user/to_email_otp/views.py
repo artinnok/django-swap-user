@@ -1,6 +1,6 @@
 from django.views.generic.edit import FormView
 
-from swap_user.to_email_otp.forms import GetOTPForm, CheckOTPForm
+from swap_user.to_email_otp.forms import CheckOTPForm, GetOTPForm
 from swap_user.to_email_otp.services import OTPSender
 
 
@@ -27,4 +27,3 @@ class CheckOTPView(FormView):
     template_name = "admin/otp-check.html"
     form_class = CheckOTPForm
     success_url = "/admin/"
-
