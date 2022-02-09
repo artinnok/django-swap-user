@@ -1,7 +1,11 @@
+from django.contrib.auth import get_user_model
 from django.views.generic.edit import FormView
 
 from swap_user.to_email_otp.forms import CheckOTPForm, GetOTPForm
-from swap_user.to_email_otp.services import OTPSender
+from swap_user.to_email_otp.services import GetOTPService
+
+
+UserModel = get_user_model()
 
 
 class GetOTPView(FormView):
@@ -14,8 +18,12 @@ class GetOTPView(FormView):
     success_url = "/admin/otp-check/"
 
     def form_valid(self, form):
-        sender = OTPSender()
-        sender.send()
+        username_field = UserModel.USERNAME_FIELD
+        username = form.cleaned_data[username_field]
+
+        service = GetOTPService()
+        service.generate_otp_and_send(username)
+
         return super(GetOTPView, self).form_valid(form)
 
 
