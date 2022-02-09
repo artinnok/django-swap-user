@@ -3,7 +3,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from swap_user.to_email.managers import EmailManager
+from swap_user.to_email.managers import EmailUserManager
 
 
 class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
@@ -38,7 +38,7 @@ class AbstractEmailUser(PermissionsMixin, DjangoAbstractBaseUser):
         help_text=_("Designates whether the user can log into this admin site."),
     )
 
-    objects = EmailManager()
+    objects = EmailUserManager()
 
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
