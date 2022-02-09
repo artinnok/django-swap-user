@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
 
+from swap_user.common.helpers import check_password
 from swap_user.to_phone_otp.managers import PhoneOTPManager
 
 
@@ -58,6 +59,17 @@ class AbstractPhoneOTPUser(PermissionsMixin):
 
     def __str__(self):
         return self.phone.as_e164
+
+    def check_password(self, user_one_time_password: str) -> bool:
+        """
+        Method that checks for OTP passwords match.
+        """
+
+        user_id = str(self.id)
+
+        is_valid = check_password(user_id, user_one_time_password)
+
+        return is_valid
 
     clean = DjangoAbstractBaseUser.clean
     get_username = DjangoAbstractBaseUser.get_username

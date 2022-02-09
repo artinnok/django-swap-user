@@ -1,10 +1,9 @@
 from django.contrib.auth.base_user import AbstractBaseUser as DjangoAbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.core.cache import cache
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from swap_user.common.helpers import get_otp_cache_key
+from swap_user.common.helpers import check_password
 from swap_user.to_email_otp.managers import EmailOTPManager
 
 
@@ -66,12 +65,9 @@ class AbstractEmailOTPUser(PermissionsMixin):
 
         user_id = str(self.id)
 
-        cache_key = get_otp_cache_key(user_id)
-        backend_one_time_password = cache.get(cache_key)
+        is_valid = check_password(user_id, user_one_time_password)
 
-        is_same_password = backend_one_time_password == user_one_time_password
-
-        return is_same_password
+        return is_valid
 
     clean = DjangoAbstractBaseUser.clean
     get_username = DjangoAbstractBaseUser.get_username

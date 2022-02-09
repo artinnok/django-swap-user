@@ -37,3 +37,16 @@ def get_otp_cache_key(user_id: str) -> str:
     cache_key = swap_user_settings.OTP_PATTERN.format(user_id=user_id)
 
     return cache_key
+
+
+def check_password(user_id: str, user_one_time_password: str) -> bool:
+    """
+    Method that checks for OTP passwords match.
+    """
+
+    cache_key = get_otp_cache_key(user_id)
+    backend_one_time_password = cache.get(cache_key)
+
+    is_same_password = backend_one_time_password == user_one_time_password
+
+    return is_same_password
