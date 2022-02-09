@@ -1,6 +1,6 @@
 from django.core.cache import cache
 
-from swap_user.to_email_otp.helpers import get_otp_cache_key
+from swap_user.common.helpers import get_otp_cache_key
 from swap_user.to_email_otp.models import EmailOTPUser
 
 
