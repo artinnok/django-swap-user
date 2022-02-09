@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from phonenumber_field.modelfields import PhoneNumberField
 
-from swap_user.to_phone.managers import PhoneManager
+from swap_user.to_phone.managers import PhoneUserManager
 
 
 class AbstractPhoneUser(PermissionsMixin, DjangoAbstractBaseUser):
@@ -40,7 +40,7 @@ class AbstractPhoneUser(PermissionsMixin, DjangoAbstractBaseUser):
         help_text=_("Designates whether the user can log into this admin site."),
     )
 
-    objects = PhoneManager()
+    objects = PhoneUserManager()
 
     USERNAME_FIELD = "phone"
     # Fix `django.contrib.auth.forms.PasswordResetForm`

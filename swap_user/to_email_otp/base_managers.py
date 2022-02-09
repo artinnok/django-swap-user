@@ -1,7 +1,7 @@
 from django.contrib.auth.models import BaseUserManager
 
 
-class BaseEmailOTPManager(BaseUserManager):
+class BaseEmailOTPUserManager(BaseUserManager):
     """
     Manager implementation that uses:
         - email

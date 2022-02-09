@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from swap_user.common.helpers import check_password
-from swap_user.to_email_otp.managers import EmailOTPManager
+from swap_user.to_email_otp.managers import EmailOTPUserManager
 
 
 class AbstractEmailOTPUser(PermissionsMixin):
@@ -45,7 +45,7 @@ class AbstractEmailOTPUser(PermissionsMixin):
     )
     last_login = models.DateTimeField(_("last login"), blank=True, null=True)
 
-    objects = EmailOTPManager()
+    objects = EmailOTPUserManager()
 
     REQUIRED_FIELDS = []
     USERNAME_FIELD = "email"

@@ -1,7 +1,7 @@
-from swap_user.to_email_otp.base_managers import BaseEmailOTPManager
+from swap_user.to_email_otp.base_managers import BaseEmailOTPUserManager
 
 
-class EmailOTPManager(BaseEmailOTPManager):
+class EmailOTPUserManager(BaseEmailOTPUserManager):
     """
     Concrete implementation of manager for EmailOTPUser.
     """

@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
 from swap_user.common.helpers import check_password
-from swap_user.to_phone_otp.managers import PhoneOTPManager
+from swap_user.to_phone_otp.managers import PhoneOTPUserManager
 
 
 class AbstractPhoneOTPUser(PermissionsMixin):
@@ -47,7 +47,7 @@ class AbstractPhoneOTPUser(PermissionsMixin):
     )
     last_login = models.DateTimeField(_("last login"), blank=True, null=True)
 
-    objects = PhoneOTPManager()
+    objects = PhoneOTPUserManager()
 
     REQUIRED_FIELDS = []
     USERNAME_FIELD = "phone"

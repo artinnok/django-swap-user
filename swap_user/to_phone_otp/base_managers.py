@@ -1,7 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 
 
-class BasePhoneOTPManager(BaseUserManager):
+class BasePhoneOTPUserManager(BaseUserManager):
     """
     Manager implementation that uses:
         - phone

@@ -1,7 +1,7 @@
 from swap_user.to_phone.base_managers import BasePhoneUserManager
 
 
-class PhoneManager(BasePhoneUserManager):
+class PhoneUserManager(BasePhoneUserManager):
     """
     Concrete implementation of manager for PhoneUser.
     """

@@ -1,7 +1,7 @@
-from swap_user.to_phone_otp.base_managers import BasePhoneOTPManager
+from swap_user.to_phone_otp.base_managers import BasePhoneOTPUserManager
 
 
-class PhoneOTPManager(BasePhoneOTPManager):
+class PhoneOTPUserManager(BasePhoneOTPUserManager):
     """
     Concrete implementation of manager for PhoneOTPUser.
     """
