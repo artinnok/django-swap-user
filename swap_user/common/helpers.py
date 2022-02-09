@@ -7,7 +7,7 @@ from swap_user.settings import swap_user_settings
 
 def generate_otp() -> str:
     """
-    Private method that generates OTP (One Time Password).
+    Method that generates OTP (One Time Password).
     """
 
     otp_alphabet = swap_user_settings.OTP_ALPHABET
