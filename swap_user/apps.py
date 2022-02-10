@@ -16,4 +16,4 @@ class OTPSiteConfig(apps.AdminConfig):
     """
 
     # custom admin site with customized Login form.
-    default_site = "swap_user.sites.OTPUserSite"
+    default_site = "swap_user.otp_sites.OTPUserSite"
