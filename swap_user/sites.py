@@ -11,7 +11,7 @@ from django.views.decorators.debug import sensitive_post_parameters
 from swap_user.otp_views import CheckOTPView, GetOTPView
 
 
-class EmailOTPUserSite(admin.AdminSite):
+class OTPUserSite(admin.AdminSite):
     def get_urls(self):
         """
         Here we are adding a new route /check-otp/ to the parent routes.

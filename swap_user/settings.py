@@ -12,7 +12,7 @@ IMPORT_SETTINGS = [
     "CHECK_OTP_SERVICE_CLASS",
 ]
 DEFAULT_SETTINGS = {
-    "OTP_SENDER_CLASS": "swap_user.senders.StdOutOTPSender",
+    "OTP_SENDER_CLASS": "swap_user.otp_senders.StdOutOTPSender",
     "GET_OTP_SERVICE_CLASS": "swap_user.services.GetOTPService",
     "CHECK_OTP_SERVICE_CLASS": "swap_user.services.CheckOTPService",
     "OTP_PATTERN": "user:otp:{user_id}",

@@ -15,12 +15,3 @@ class EmailOTPUserConfig(apps.AppConfig):
     verbose_name = "Django Swap User"
     # we are maintaining historical behavior
     default_auto_field = "django.db.models.AutoField"
-
-
-class SiteConfig(apps.AdminConfig):
-    """
-    This config required for customizing admin panel Login form.
-    """
-
-    # custom admin site with customized Login form.
-    default_site = "swap_user.to_email_otp.sites.EmailOTPUserSite"
