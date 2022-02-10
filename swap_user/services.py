@@ -11,10 +11,11 @@ UserModel = get_user_model()
 
 class GetOTPService:
     def generate_otp_and_send(self, username: str):
-        user_id = self.get_user_id(username)
-        if not user_id:
+        user = self.get_user(username)
+        if not user:
             return None
 
+        user_id = user.id
         sender_class = swap_user_settings.OTP_SENDER_CLASS
 
         otp = generate_otp()
@@ -24,7 +25,7 @@ class GetOTPService:
         sender = sender_class()
         sender.send(username, otp)
 
-    def get_user_id(self, username: str) -> Optional[str]:
+    def get_user(self, username: str) -> Optional[str]:
         try:
             username_field = UserModel.USERNAME_FIELD
             query_data = {username_field: username}
@@ -32,5 +33,4 @@ class GetOTPService:
         except UserModel.DoesNotExist:
             return None
 
-        user_id = user.id
-        return user_id
+        return user
