@@ -8,7 +8,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.debug import sensitive_post_parameters
 
-from swap_user.otp_views import CheckOTPView, GetOTPView
+from swap_user.otp.views import CheckOTPView, GetOTPView
 
 
 class OTPUserSite(admin.AdminSite):
