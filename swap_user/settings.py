@@ -7,12 +7,14 @@ from django.utils.module_loading import import_string
 #
 
 IMPORT_SETTINGS = [
-    "EMAIL_USER_ABSTRACT_BASE_CLASS",
     "OTP_SENDER_CLASS",
+    "GET_OTP_SERVICE_CLASS",
+    "CHECK_OTP_SERVICE_CLASS",
 ]
 DEFAULT_SETTINGS = {
-    "EMAIL_USER_ABSTRACT_BASE_CLASS": "swap_user.to_email.models.AbstractEmailUser",
     "OTP_SENDER_CLASS": "swap_user.senders.StdOutOTPSender",
+    "GET_OTP_SERVICE_CLASS": "swap_user.services.GetOTPService",
+    "CHECK_OTP_SERVICE_CLASS": "swap_user.services.CheckOTPService",
     "OTP_PATTERN": "user:otp:{user_id}",
     "OTP_TIMEOUT": 60,
     "OTP_ALPHABET": "0123456789",

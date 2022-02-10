@@ -1,4 +1,4 @@
-from swap_user.forms import BaseUserOptionalFieldsForm, BaseUserRequiredFieldsForm
+from swap_user.base_forms import BaseUserOptionalFieldsForm, BaseUserRequiredFieldsForm
 from swap_user.to_email.models import EmailUser
 
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from swap_user.forms import BaseUserOptionalFieldsForm, BaseUserRequiredFieldsForm
+from swap_user.base_forms import BaseUserOptionalFieldsForm, BaseUserRequiredFieldsForm
 
 
 class BaseUserAdmin(admin.ModelAdmin):

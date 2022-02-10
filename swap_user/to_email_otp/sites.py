@@ -3,8 +3,12 @@ from typing import Optional
 from django.contrib import admin
 from django.http import HttpRequest
 from django.urls import path
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
 
-from swap_user.views import CheckOTPView, GetOTPView
+from swap_user.otp_views import CheckOTPView, GetOTPView
 
 
 class EmailOTPUserSite(admin.AdminSite):
@@ -24,6 +28,9 @@ class EmailOTPUserSite(admin.AdminSite):
 
         return urls
 
+    @method_decorator(sensitive_post_parameters())
+    @method_decorator(csrf_protect)
+    @never_cache
     def login(self, request: HttpRequest, extra_context: Optional[dict] = None):
         """
         At this view handler we are registering custom `GetOTPView`
@@ -35,6 +42,9 @@ class EmailOTPUserSite(admin.AdminSite):
 
         return GetOTPView.as_view(**context)(request)
 
+    @method_decorator(sensitive_post_parameters())
+    @method_decorator(csrf_protect)
+    @never_cache
     def check_otp(self, request: HttpRequest, extra_context: Optional[dict] = None):
         """
         This view checks received OTP with OTP cached at backend side.
