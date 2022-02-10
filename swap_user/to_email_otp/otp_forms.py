@@ -20,3 +20,20 @@ class GetOTPForm(forms.Form):
 
 class CheckOTPForm(GetOTPForm):
     otp = forms.CharField(label=_("OTP"), widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        email = cleaned_data["email"]
+        otp = cleaned_data["otp"]
+
+        try:
+            user = UserModel.objects.get(email=email)
+        except UserModel.DoesNotExist:
+            message = _("Invalid OTP.")
+            code = "invalid_otp"
+            raise forms.ValidationError(message, code)
+
+        if not user.check_password(otp):
+            message = _("Invalid OTP.")
+            code = "invalid_otp"
+            raise forms.ValidationError(message, code)
