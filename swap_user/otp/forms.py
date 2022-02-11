@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
+from swap_user.helpers import check_user_was_banned, get_banned_user_cache_key
+
 
 UserModel = get_user_model()
 
@@ -18,8 +20,32 @@ class GetOTPForm(forms.ModelForm):
         fields = (UserModel.USERNAME_FIELD,)
 
     def clean(self):
-        # We are preventing unique validation by overriding this method
+        """
+        We are preventing unique validation by overriding this method and
+        adding extra check for user ban.
+        """
+
+        username_field = UserModel.USERNAME_FIELD
+        username = self.cleaned_data[username_field]
+
+        self._check_user_is_banned(username)
+
         return self.cleaned_data
+
+    def _check_user_is_banned(self, username: str):
+        """
+        We are banning user for too many invalid login
+        attempts.
+        Here we are checking for this.
+        """
+
+        cache_key = get_banned_user_cache_key(username)
+        is_banned = check_user_was_banned(cache_key)
+
+        if is_banned:
+            message = _("You are banned - contact with admin.")
+            code = "banned"
+            raise forms.ValidationError(message, code)
 
 
 class CheckOTPForm(GetOTPForm):
@@ -40,6 +66,7 @@ class CheckOTPForm(GetOTPForm):
         username = self.cleaned_data[username_field]
         otp = self.cleaned_data["otp"]
 
+        self._check_user_is_banned(username)
         user = self._get_user(username)
         self._check_password(user, otp)
 

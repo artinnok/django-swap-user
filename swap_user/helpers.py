@@ -1,4 +1,5 @@
 import secrets
+from typing import Union
 
 from django.core.cache import cache
 
@@ -6,6 +7,7 @@ from swap_user.settings import swap_user_settings
 
 
 DEFAULT_COUNTER_VALUE = 1
+DEFAULT_BANNED_VALUE = False
 
 
 def generate_otp() -> str:
@@ -22,14 +24,16 @@ def generate_otp() -> str:
     return otp
 
 
-def set_otp_to_cache(otp_key: str, otp_value: str, expire=swap_user_settings.OTP_TIMEOUT) -> str:
+def set_key_to_cache(
+    cache_key: str, value: Union[int, str], expire=swap_user_settings.OTP_TIMEOUT
+) -> str:
     """
-    Saves OTP (One Time Password) into cache with provided key.
+    Saves value into cache with provided key.
     """
 
-    cache.set(otp_key, otp_value, expire)
+    cache.set(cache_key, value, expire)
 
-    return otp_value
+    return value
 
 
 def get_otp_cache_key(user_id: str) -> str:
@@ -44,7 +48,7 @@ def get_otp_cache_key(user_id: str) -> str:
 
 def get_invalid_login_cache_key(user_id: str) -> str:
     """
-    Generates cache key for storing OTP (One Time Password) per user.
+    Get invalid login cache key for concrete user.
     """
 
     cache_key = swap_user_settings.INVALID_LOGIN_PATTERN.format(user_id=user_id)
@@ -52,22 +56,32 @@ def get_invalid_login_cache_key(user_id: str) -> str:
     return cache_key
 
 
-def increase_counter_of_invalid_login(cache_key: str) -> str:
+def get_banned_user_cache_key(user_id: str) -> str:
+    """
+    Get banned user cache key
+    """
+
+    cache_key = swap_user_settings.BANNED_USER_PATTERN.format(user_id=user_id)
+
+    return cache_key
+
+
+def increase_counter_of_invalid_login(cache_key: str) -> int:
     """
     Increase counter of invalid login by 1.
     """
 
     try:
-        cache.incr(cache_key)
+        current_counter = cache.incr(cache_key)
     except ValueError:
-        cache.set(cache_key, DEFAULT_COUNTER_VALUE)
+        current_counter = cache.set(cache_key, DEFAULT_COUNTER_VALUE)
 
-    return cache_key
+    return current_counter
 
 
 def check_password(user_id: str, user_one_time_password: str) -> bool:
     """
-    Method that checks for OTP passwords match.
+    Function that checks for OTP passwords match.
     """
 
     cache_key = get_otp_cache_key(user_id)
@@ -76,3 +90,13 @@ def check_password(user_id: str, user_one_time_password: str) -> bool:
     is_same_password = backend_one_time_password == user_one_time_password
 
     return is_same_password
+
+
+def check_user_was_banned(cache_key: str) -> bool:
+    """
+    Checks user is banned or not.
+    """
+
+    is_banned = cache.get(cache_key, DEFAULT_BANNED_VALUE)
+
+    return is_banned

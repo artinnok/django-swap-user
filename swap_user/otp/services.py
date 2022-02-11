@@ -5,15 +5,17 @@ from django.http import HttpRequest
 
 from swap_user.helpers import (
     generate_otp,
+    get_banned_user_cache_key,
     get_invalid_login_cache_key,
     get_otp_cache_key,
     increase_counter_of_invalid_login,
-    set_otp_to_cache,
+    set_key_to_cache,
 )
 from swap_user.settings import swap_user_settings
 
 
 UserModel = get_user_model()
+USER_IS_BANNED = True
 
 
 class GetOTPService:
@@ -43,7 +45,7 @@ class GetOTPService:
 
         otp = generate_otp()
         cache_key = get_otp_cache_key(user_id)
-        set_otp_to_cache(cache_key, otp)
+        set_key_to_cache(cache_key=cache_key, value=otp)
 
         sender = sender_class()
         sender.send(username, otp)
@@ -104,5 +106,15 @@ class CheckOTPService:
         When invalid attempts will reach a limit - user will be banned for some period.
         """
 
-        cache_key = get_invalid_login_cache_key(username)
-        increase_counter_of_invalid_login(cache_key)
+        invalid_login_cache_key = get_invalid_login_cache_key(username)
+        current_counter = increase_counter_of_invalid_login(invalid_login_cache_key)
+
+        if current_counter < swap_user_settings.MAX_INVALID_LOGIN_ATTEMPTS:
+            return None
+
+        banned_user_cache_key = get_banned_user_cache_key(username)
+        set_key_to_cache(
+            cache_key=banned_user_cache_key,
+            value=USER_IS_BANNED,
+            expire=swap_user_settings.BANNED_USER_TIMEOUT,
+        )
