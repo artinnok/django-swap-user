@@ -80,5 +80,20 @@ class CheckOTPView(SuccessURLAllowedHostsMixin, FormView):
 
         return super().form_valid(form)
 
+    def form_invalid(self, form):
+        """
+        If form is invalid - we will increase counter of invalid logins for current user.
+        When counter will reach the limit - user will be banned for some amount of time.
+        """
+
+        username_field = UserModel.USERNAME_FIELD
+        username = form.cleaned_data[username_field]
+
+        service_class = swap_user_settings.CHECK_OTP_SERVICE_CLASS
+        service = service_class()
+        service.track_invalid_login_attempt(username=username)
+
+        return super().form_invalid(form)
+
     get_success_url = LoginView.get_success_url
     get_redirect_url = LoginView.get_redirect_url

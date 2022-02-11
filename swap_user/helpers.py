@@ -5,6 +5,9 @@ from django.core.cache import cache
 from swap_user.settings import swap_user_settings
 
 
+DEFAULT_COUNTER_VALUE = 1
+
+
 def generate_otp() -> str:
     """
     Method that generates OTP (One Time Password).
@@ -35,6 +38,29 @@ def get_otp_cache_key(user_id: str) -> str:
     """
 
     cache_key = swap_user_settings.OTP_PATTERN.format(user_id=user_id)
+
+    return cache_key
+
+
+def get_invalid_login_cache_key(user_id: str) -> str:
+    """
+    Generates cache key for storing OTP (One Time Password) per user.
+    """
+
+    cache_key = swap_user_settings.INVALID_LOGIN_PATTERN.format(user_id=user_id)
+
+    return cache_key
+
+
+def increase_counter_of_invalid_login(cache_key: str) -> str:
+    """
+    Increase counter of invalid login by 1.
+    """
+
+    try:
+        cache.incr(cache_key)
+    except ValueError:
+        cache.set(cache_key, DEFAULT_COUNTER_VALUE)
 
     return cache_key
 

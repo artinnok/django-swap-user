@@ -15,6 +15,8 @@ DEFAULT_SETTINGS = {
     "OTP_SENDER_CLASS": "swap_user.otp.senders.StdOutOTPSender",
     "GET_OTP_SERVICE_CLASS": "swap_user.otp.services.GetOTPService",
     "CHECK_OTP_SERVICE_CLASS": "swap_user.otp.services.CheckOTPService",
+    "MAX_INVALID_LOGIN_ATTEMPTS": 3,
+    "INVALID_LOGIN_PATTERN": "user:invalid:login:{user_id}",
     "OTP_PATTERN": "user:otp:{user_id}",
     "OTP_TIMEOUT": 60,
     "OTP_ALPHABET": "0123456789",

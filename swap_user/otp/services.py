@@ -3,7 +3,13 @@ from typing import Optional
 from django.contrib.auth import authenticate, get_user_model, login
 from django.http import HttpRequest
 
-from swap_user.helpers import generate_otp, get_otp_cache_key, set_otp_to_cache
+from swap_user.helpers import (
+    generate_otp,
+    get_invalid_login_cache_key,
+    get_otp_cache_key,
+    increase_counter_of_invalid_login,
+    set_otp_to_cache,
+)
 from swap_user.settings import swap_user_settings
 
 
@@ -85,5 +91,18 @@ class CheckOTPService:
     """
 
     def authenticate_and_login(self, request: HttpRequest, username: str, password: str):
+        """
+        Default authentication and login process to enter Django's admin.
+        """
+
         user = authenticate(request, username=username, password=password,)
         login(request, user)
+
+    def track_invalid_login_attempt(self, username: str):
+        """
+        Here we are going to track all invalid login attempts.
+        When invalid attempts will reach a limit - user will be banned for some period.
+        """
+
+        cache_key = get_invalid_login_cache_key(username)
+        increase_counter_of_invalid_login(cache_key)
