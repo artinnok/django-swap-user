@@ -42,6 +42,14 @@ class GetOTPService:
         sender = sender_class()
         sender.send(username, otp)
 
+    def save_username_to_sesson(self, request: HttpRequest, username: str):
+        """
+        Save username to session for future usage at the next
+        screen (view `CheckOTPView`). Just convenient for future steps.
+        """
+
+        request.session[UserModel.USERNAME_FIELD] = username
+
     def _get_user(self, username: str) -> Optional[UserModel]:
         """
         Method, that handles user presence in our DB or not.

@@ -27,7 +27,7 @@ class CheckOTPForm(GetOTPForm):
     Here we are checking User presence among with OPT check.
     """
 
-    otp = forms.CharField(label=_("OTP"), widget=forms.PasswordInput)
+    otp = forms.CharField(label=_("OTP"), widget=forms.PasswordInput, attrs={"autofocus": True})
 
     def clean(self):
         """
