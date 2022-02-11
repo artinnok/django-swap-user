@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from django.utils.text import capfirst
 from django.utils.translation import gettext_lazy as _
 
 
@@ -14,14 +13,7 @@ class GetOTPForm(forms.Form):
     attacker can just check all the emails.
     """
 
-    username = forms.EmailField()
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        # Inspired by django.contrib.auth.forms:195
-        self.username_field = UserModel._meta.get_field(UserModel.USERNAME_FIELD)
-        self.fields["username"].label = capfirst(self.username_field.verbose_name)
+    email = forms.EmailField(label=_("Email"))
 
 
 class CheckOTPForm(GetOTPForm):
@@ -38,9 +30,9 @@ class CheckOTPForm(GetOTPForm):
             - OTP password validity
         """
 
-        cleaned_data = self.cleaned_data
-        username = self.cleaned_data["username"]
-        otp = cleaned_data["otp"]
+        username_field = UserModel.USERNAME_FIELD
+        username = self.cleaned_data[username_field]
+        otp = self.cleaned_data["otp"]
 
         user = self._get_user(username)
         self._check_password(user, otp)
