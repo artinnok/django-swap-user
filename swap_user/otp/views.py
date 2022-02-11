@@ -4,7 +4,7 @@ from django.contrib.auth.views import REDIRECT_FIELD_NAME, LoginView, SuccessURL
 from django.views.generic.edit import FormView
 
 from swap_user.settings import swap_user_settings
-from swap_user.to_email_otp.otp_forms import CheckOTPForm, GetOTPForm
+from swap_user.otp.forms import CheckOTPForm, GetOTPForm
 
 
 UserModel = get_user_model()

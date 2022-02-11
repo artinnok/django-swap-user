@@ -6,14 +6,20 @@ from django.utils.translation import gettext_lazy as _
 UserModel = get_user_model()
 
 
-class GetOTPForm(forms.Form):
+class GetOTPForm(forms.ModelForm):
     """
     Unfortunately we can't check User exist or not at this screen by the
     security reasons - if we will show error when User doesn't exist,
-    attacker can just check all the emails.
+    attacker can just check all the emails / phones.
     """
 
-    email = forms.EmailField(label=_("Email"))
+    class Meta:
+        model = UserModel
+        fields = (UserModel.USERNAME_FIELD,)
+
+    def clean(self):
+        # We are preventing unique validation by overriding this method
+        return self.cleaned_data
 
 
 class CheckOTPForm(GetOTPForm):
