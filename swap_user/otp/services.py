@@ -16,6 +16,10 @@ class GetOTPService:
         if not user:
             return None
 
+        is_enough_permissions = self._has_enough_permissions(user)
+        if not is_enough_permissions:
+            return None
+
         user_id = user.id
         sender_class = swap_user_settings.OTP_SENDER_CLASS
 
@@ -26,7 +30,7 @@ class GetOTPService:
         sender = sender_class()
         sender.send(username, otp)
 
-    def _get_user(self, username: str) -> Optional[str]:
+    def _get_user(self, username: str) -> Optional[UserModel]:
         username_field = UserModel.USERNAME_FIELD
         query_data = {username_field: username}
 
@@ -36,6 +40,12 @@ class GetOTPService:
             return None
 
         return user
+
+    def _has_enough_permissions(self, user: UserModel) -> bool:
+        is_staff = user.is_staff
+        is_active = user.is_active
+
+        return is_staff and is_active
 
 
 class CheckOTPService:

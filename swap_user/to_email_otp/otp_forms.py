@@ -11,8 +11,6 @@ class GetOTPForm(forms.Form):
     Unfortunately we can't check User exist or not by the
     security reasons - if we will show error when User doesn't exist,
     attacker can just check all the emails.
-
-    # TODO add admin check
     """
 
     email = forms.EmailField(label=_("Email"))
@@ -26,6 +24,10 @@ class CheckOTPForm(GetOTPForm):
         email = cleaned_data["email"]
         otp = cleaned_data["otp"]
 
+        user = self._get_user(email)
+        self._check_password(user, otp)
+
+    def _get_user(self, email: str) -> UserModel:
         try:
             user = UserModel.objects.get(email=email)
         except UserModel.DoesNotExist:
@@ -33,6 +35,9 @@ class CheckOTPForm(GetOTPForm):
             code = "invalid_otp"
             raise forms.ValidationError(message, code)
 
+        return user
+
+    def _check_password(self, user: UserModel, otp: str):
         if not user.check_password(otp):
             message = _("Invalid OTP.")
             code = "invalid_otp"
