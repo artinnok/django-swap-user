@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from django.utils.text import capfirst
 from django.utils.translation import gettext_lazy as _
 
 
@@ -8,37 +9,65 @@ UserModel = get_user_model()
 
 class GetOTPForm(forms.Form):
     """
-    Unfortunately we can't check User exist or not by the
+    Unfortunately we can't check User exist or not at this screen by the
     security reasons - if we will show error when User doesn't exist,
     attacker can just check all the emails.
     """
 
-    email = forms.EmailField(label=_("Email"))
+    username = forms.EmailField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        # Inspired by django.contrib.auth.forms:195
+        self.username_field = UserModel._meta.get_field(UserModel.USERNAME_FIELD)
+        self.fields["username"].label = capfirst(self.username_field.verbose_name)
 
 
 class CheckOTPForm(GetOTPForm):
+    """
+    Here we are checking User presence among with OPT check.
+    """
+
     otp = forms.CharField(label=_("OTP"), widget=forms.PasswordInput)
 
     def clean(self):
+        """
+        Method that allows to us pass through few validation checks:
+            - User DB presence
+            - OTP password validity
+        """
+
         cleaned_data = self.cleaned_data
-        email = cleaned_data["email"]
+        username = self.cleaned_data["username"]
         otp = cleaned_data["otp"]
 
-        user = self._get_user(email)
+        user = self._get_user(username)
         self._check_password(user, otp)
 
-    def _get_user(self, email: str) -> UserModel:
+    def _get_user(self, username: str) -> UserModel:
+        """
+        Check User presence in our DB or not.
+        """
+
+        username_field = UserModel.USERNAME_FIELD
+        query_data = {username_field: username}
+
         try:
-            user = UserModel.objects.get(email=email)
+            user = UserModel.objects.get(**query_data)
         except UserModel.DoesNotExist:
-            message = _("Invalid OTP.")
-            code = "invalid_otp"
+            message = _("Invalid credentials.")
+            code = "invalid_credentials"
             raise forms.ValidationError(message, code)
 
         return user
 
     def _check_password(self, user: UserModel, otp: str):
+        """
+        Check backend cached OTP with user provided OTP.
+        """
+
         if not user.check_password(otp):
-            message = _("Invalid OTP.")
-            code = "invalid_otp"
+            message = _("Invalid credentials.")
+            code = "invalid_credentials"
             raise forms.ValidationError(message, code)

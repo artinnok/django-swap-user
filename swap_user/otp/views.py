@@ -20,8 +20,7 @@ class GetOTPView(FormView):
     success_url = "/admin/check-otp/?next=/admin/"
 
     def form_valid(self, form: forms.Form):
-        username_field = UserModel.USERNAME_FIELD
-        username = form.cleaned_data[username_field]
+        username = form.cleaned_data["username"]
 
         service_class = swap_user_settings.GET_OTP_SERVICE_CLASS
         service = service_class()
