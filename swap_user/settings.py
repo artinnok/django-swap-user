@@ -17,9 +17,9 @@ DEFAULT_SETTINGS = {
     "GET_OTP_SERVICE_CLASS": "swap_user.otp.services.GetOTPService",
     "CHECK_OTP_SERVICE_CLASS": "swap_user.otp.services.CheckOTPService",
     # patterns
-    "INVALID_LOGIN_PATTERN": "user:invalid:login:{user_id}",
-    "BANNED_USER_PATTERN": "user:banned:{user_id}",
-    "OTP_PATTERN": "user:otp:{user_id}",
+    "INVALID_LOGIN_PATTERN": "swap-user:invalid:login:{user_id}",
+    "BANNED_USER_PATTERN": "swap-user:banned:{user_id}",
+    "OTP_PATTERN": "swap-user:otp:{user_id}",
     # constant values
     "BANNED_USER_TIMEOUT": 60 * 60 * 24,  # 24 hours
     "OTP_TIMEOUT": 60,  # 60 seconds
