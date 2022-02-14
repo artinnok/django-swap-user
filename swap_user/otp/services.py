@@ -100,7 +100,12 @@ class CheckOTPService:
         user = authenticate(request, username=username, password=password,)
         login(request, user)
 
-    def track_invalid_login_attempt(self, username: str):
+    def track_invalid_login_attempt(
+        self,
+        username: str,
+        max_invalid_attempts: int = swap_user_settings.MAX_INVALID_LOGIN_ATTEMPTS,
+        ban_timeout: int = swap_user_settings.BANNED_USER_TIMEOUT,
+    ):
         """
         Here we are going to track all invalid login attempts.
         When invalid attempts will reach a limit - user will be banned for some period.
@@ -109,12 +114,10 @@ class CheckOTPService:
         invalid_login_cache_key = get_invalid_login_cache_key(username)
         current_counter = increase_counter_of_invalid_login(invalid_login_cache_key)
 
-        if current_counter < swap_user_settings.MAX_INVALID_LOGIN_ATTEMPTS:
+        if current_counter < max_invalid_attempts:
             return None
 
         banned_user_cache_key = get_banned_user_cache_key(username)
         set_key_to_cache(
-            cache_key=banned_user_cache_key,
-            value=USER_IS_BANNED,
-            expire=swap_user_settings.BANNED_USER_TIMEOUT,
+            cache_key=banned_user_cache_key, value=USER_IS_BANNED, expire=ban_timeout,
         )

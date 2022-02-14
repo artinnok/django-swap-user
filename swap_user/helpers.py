@@ -10,15 +10,14 @@ DEFAULT_COUNTER_VALUE = 1
 DEFAULT_BANNED_VALUE = False
 
 
-def generate_otp() -> str:
+def generate_otp(
+    alphabet: str = swap_user_settings.OTP_ALPHABET, length: int = swap_user_settings.OTP_LENGTH
+) -> str:
     """
     Method that generates OTP (One Time Password).
     """
 
-    otp_alphabet = swap_user_settings.OTP_ALPHABET
-    otp_length = swap_user_settings.OTP_LENGTH
-
-    otp_digits = [secrets.choice(otp_alphabet) for _ in range(otp_length)]
+    otp_digits = [secrets.choice(alphabet) for _ in range(length)]
     otp = "".join(otp_digits)
 
     return otp
@@ -66,7 +65,9 @@ def get_banned_user_cache_key(user_id: str) -> str:
     return cache_key
 
 
-def increase_counter_of_invalid_login(cache_key: str) -> int:
+def increase_counter_of_invalid_login(
+    cache_key: str, default_counter_value: int = DEFAULT_COUNTER_VALUE
+) -> int:
     """
     Increase counter of invalid login by 1.
     """
@@ -74,7 +75,7 @@ def increase_counter_of_invalid_login(cache_key: str) -> int:
     try:
         current_counter = cache.incr(cache_key)
     except ValueError:
-        current_counter = cache.set(cache_key, DEFAULT_COUNTER_VALUE)
+        current_counter = cache.set(cache_key, default_counter_value)
 
     return current_counter
 
@@ -92,12 +93,12 @@ def check_password(user_id: str, user_one_time_password: str) -> bool:
     return is_same_password
 
 
-def check_user_was_banned(cache_key: str) -> bool:
+def check_user_was_banned(cache_key: str, default_ban_value: bool = DEFAULT_BANNED_VALUE) -> bool:
     """
     Checks user is banned or not.
     """
 
-    is_banned = cache.get(cache_key, DEFAULT_BANNED_VALUE)
+    is_banned = cache.get(cache_key, default_ban_value)
 
     return is_banned
 
