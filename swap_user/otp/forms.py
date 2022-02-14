@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
-from swap_user.helpers import check_user_was_banned, get_banned_user_cache_key
+from swap_user.helpers import check_user_was_banned, get_banned_user_cache_key, normalize_username
 
 
 UserModel = get_user_model()
@@ -26,7 +26,8 @@ class GetOTPForm(forms.ModelForm):
         """
 
         username_field = UserModel.USERNAME_FIELD
-        username = self.cleaned_data[username_field]
+        raw_username = self.cleaned_data[username_field]
+        username = normalize_username(raw_username)
 
         self._check_user_is_banned(username)
 

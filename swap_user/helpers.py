@@ -100,3 +100,15 @@ def check_user_was_banned(cache_key: str) -> bool:
     is_banned = cache.get(cache_key, DEFAULT_BANNED_VALUE)
 
     return is_banned
+
+
+def normalize_username(username: str) -> str:
+    """
+    Username normalization function:
+        - Removes all spaces
+        - Transforms to lowercase
+    """
+
+    normalized = username.strip().lower()
+
+    return normalized

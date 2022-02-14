@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.views import REDIRECT_FIELD_NAME, LoginView, SuccessURLAllowedHostsMixin
 from django.views.generic.edit import FormView
 
+from swap_user.helpers import normalize_username
 from swap_user.otp.forms import CheckOTPForm, GetOTPForm
 from swap_user.settings import swap_user_settings
 
@@ -27,7 +28,8 @@ class GetOTPView(FormView):
         """
 
         username_field = UserModel.USERNAME_FIELD
-        username = form.cleaned_data[username_field]
+        raw_username = form.cleaned_data[username_field]
+        username = normalize_username(raw_username)
         request = self.request
 
         service_class = swap_user_settings.GET_OTP_SERVICE_CLASS
@@ -69,7 +71,8 @@ class CheckOTPView(SuccessURLAllowedHostsMixin, FormView):
         """
 
         username_field = UserModel.USERNAME_FIELD
-        username = form.cleaned_data[username_field]
+        raw_username = form.cleaned_data[username_field]
+        username = normalize_username(raw_username)
         otp_password = form.cleaned_data["otp"]
 
         service_class = swap_user_settings.CHECK_OTP_SERVICE_CLASS
@@ -87,7 +90,8 @@ class CheckOTPView(SuccessURLAllowedHostsMixin, FormView):
         """
 
         username_field = UserModel.USERNAME_FIELD
-        username = form.cleaned_data[username_field]
+        raw_username = form.cleaned_data[username_field]
+        username = normalize_username(raw_username)
 
         service_class = swap_user_settings.CHECK_OTP_SERVICE_CLASS
         service = service_class()
