@@ -35,32 +35,36 @@ def set_key_to_cache(
     return value
 
 
-def get_otp_cache_key(user_id: str) -> str:
+def get_otp_cache_key(user_id: str, cache_pattern: str = swap_user_settings.OTP_PATTERN) -> str:
     """
     Generates cache key for storing OTP (One Time Password) per user.
     """
 
-    cache_key = swap_user_settings.OTP_PATTERN.format(user_id=user_id)
+    cache_key = cache_pattern.format(user_id=user_id)
 
     return cache_key
 
 
-def get_invalid_login_cache_key(user_id: str) -> str:
+def get_invalid_login_cache_key(
+    user_id: str, cache_pattern: str = swap_user_settings.INVALID_LOGIN_PATTERN
+) -> str:
     """
     Get invalid login cache key for concrete user.
     """
 
-    cache_key = swap_user_settings.INVALID_LOGIN_PATTERN.format(user_id=user_id)
+    cache_key = cache_pattern.format(user_id=user_id)
 
     return cache_key
 
 
-def get_banned_user_cache_key(user_id: str) -> str:
+def get_banned_user_cache_key(
+    user_id: str, cache_pattern: str = swap_user_settings.BANNED_USER_PATTERN
+) -> str:
     """
     Get banned user cache key
     """
 
-    cache_key = swap_user_settings.BANNED_USER_PATTERN.format(user_id=user_id)
+    cache_key = cache_pattern.format(user_id=user_id)
 
     return cache_key
 

@@ -12,17 +12,18 @@ IMPORT_SETTINGS = [
     "CHECK_OTP_SERVICE_CLASS",
 ]
 DEFAULT_SETTINGS = {
+    # services
     "OTP_SENDER_CLASS": "swap_user.otp.senders.StdOutOTPSender",
     "GET_OTP_SERVICE_CLASS": "swap_user.otp.services.GetOTPService",
     "CHECK_OTP_SERVICE_CLASS": "swap_user.otp.services.CheckOTPService",
-    "MAX_INVALID_LOGIN_ATTEMPTS": 3,
+    # patterns
     "INVALID_LOGIN_PATTERN": "user:invalid:login:{user_id}",
     "BANNED_USER_PATTERN": "user:banned:{user_id}",
-    # 24 hours
-    "BANNED_USER_TIMEOUT": 60 * 60 * 24,
     "OTP_PATTERN": "user:otp:{user_id}",
-    # 60 seconds
-    "OTP_TIMEOUT": 60,
+    # constant values
+    "BANNED_USER_TIMEOUT": 60 * 60 * 24,  # 24 hours
+    "OTP_TIMEOUT": 60,  # 60 seconds
+    "MAX_INVALID_LOGIN_ATTEMPTS": 3,
     "OTP_ALPHABET": "0123456789",
     "OTP_LENGTH": 5,
 }
