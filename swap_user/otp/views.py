@@ -34,8 +34,10 @@ class GetOTPView(FormView):
 
         service_class = swap_user_settings.GET_OTP_SERVICE_CLASS
         service = service_class()
+
         service.generate_otp_and_send(username=username)
         service.save_username_to_sesson(request=request, username=username)
+        service.track_how_much_otp_sent(username=username)
 
         return super().form_valid(form)
 

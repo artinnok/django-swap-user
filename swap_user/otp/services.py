@@ -5,10 +5,10 @@ from django.http import HttpRequest
 
 from swap_user.helpers import (
     generate_otp,
-    get_banned_user_cache_key,
+    get_banned_for_invalid_login_cache_key,
+    get_banned_for_otp_rate_limit_cache_key,
     get_invalid_login_counter_cache_key,
     get_otp_cache_key,
-    get_otp_rate_limit_reached_cache_key,
     get_sent_otp_counter_cache_key,
     increase_counter,
     set_key_to_cache,
@@ -50,8 +50,6 @@ class GetOTPService:
         sender = sender_class()
         sender.send(username, otp)
 
-        self._track_sent_otp(user_id)
-
     def save_username_to_sesson(self, request: HttpRequest, username: str):
         """
         Save username to session for future usage at the next
@@ -59,6 +57,29 @@ class GetOTPService:
         """
 
         request.session[UserModel.USERNAME_FIELD] = username
+
+    def track_how_much_otp_sent(
+        self,
+        username: str,
+        max_number_of_otp: int = swap_user_settings.MAX_NUMBER_OF_OTP_SENT,
+        ban_timeout: int = swap_user_settings.BAN_FOR_OTP_RATE_LIMIT_TIMEOUT,
+    ):
+        """
+        We are tracking how much OTP we are sending to user.
+        If user reached limit of sent OTP number - he is going to ban.
+        """
+
+        sent_otp_cache_key = get_sent_otp_counter_cache_key(username)
+
+        current_counter = increase_counter(sent_otp_cache_key)
+
+        if current_counter < max_number_of_otp:
+            return None
+
+        rate_limit_cache_key = get_banned_for_otp_rate_limit_cache_key(username)
+        set_key_to_cache(
+            cache_key=rate_limit_cache_key, value=USER_IS_BANNED, expire=ban_timeout,
+        )
 
     def _get_user(self, username: str) -> Optional[UserModel]:
         """
@@ -97,29 +118,6 @@ class GetOTPService:
 
         return otp
 
-    def _track_sent_otp(
-        self,
-        user_id: str,
-        max_number_of_otp: int = swap_user_settings.MAX_NUMBER_OF_OTP_SENT,
-        ban_timeout: int = swap_user_settings.BAN_FOR_OTP_RATE_LIMIT_TIMEOUT,
-    ):
-        """
-        We are tracking how much OTP we are sending to user.
-        If user reached limit of sent OTP number - he is going to ban.
-        """
-
-        sent_otp_cache_key = get_sent_otp_counter_cache_key(user_id)
-
-        current_counter = increase_counter(sent_otp_cache_key)
-
-        if current_counter < max_number_of_otp:
-            return None
-
-        rate_limit_cache_key = get_otp_rate_limit_reached_cache_key(user_id)
-        set_key_to_cache(
-            cache_key=rate_limit_cache_key, value=USER_IS_BANNED, expire=ban_timeout,
-        )
-
 
 class CheckOTPService:
     """
@@ -153,7 +151,7 @@ class CheckOTPService:
         if current_counter < max_invalid_attempts:
             return None
 
-        banned_user_cache_key = get_banned_user_cache_key(username)
+        banned_user_cache_key = get_banned_for_invalid_login_cache_key(username)
         set_key_to_cache(
             cache_key=banned_user_cache_key, value=USER_IS_BANNED, expire=ban_timeout,
         )

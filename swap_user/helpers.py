@@ -45,7 +45,7 @@ def get_otp_cache_key(user_id: str, cache_pattern: str = swap_user_settings.OTP_
     return cache_key
 
 
-def get_banned_user_cache_key(
+def get_banned_for_invalid_login_cache_key(
     user_id: str, cache_pattern: str = swap_user_settings.USER_BANNED_FOR_INVALID_LOGIN
 ) -> str:
     """
@@ -57,7 +57,7 @@ def get_banned_user_cache_key(
     return cache_key
 
 
-def get_otp_rate_limit_reached_cache_key(
+def get_banned_for_otp_rate_limit_cache_key(
     user_id: str, cache_pattern: str = swap_user_settings.USER_BANNED_FOR_OTP_RATE_LIMIT_PATTERN
 ) -> str:
     """
