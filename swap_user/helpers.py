@@ -45,8 +45,32 @@ def get_otp_cache_key(user_id: str, cache_pattern: str = swap_user_settings.OTP_
     return cache_key
 
 
-def get_invalid_login_cache_key(
-    user_id: str, cache_pattern: str = swap_user_settings.INVALID_LOGIN_PATTERN
+def get_banned_user_cache_key(
+    user_id: str, cache_pattern: str = swap_user_settings.USER_BANNED_FOR_INVALID_LOGIN
+) -> str:
+    """
+    Get banned user cache key.
+    """
+
+    cache_key = cache_pattern.format(user_id=user_id)
+
+    return cache_key
+
+
+def get_otp_rate_limit_reached_cache_key(
+    user_id: str, cache_pattern: str = swap_user_settings.USER_BANNED_FOR_OTP_RATE_LIMIT_PATTERN
+) -> str:
+    """
+    Get banned for too many sent OTP pattern.
+    """
+
+    cache_key = cache_pattern.format(user_id=user_id)
+
+    return cache_key
+
+
+def get_invalid_login_counter_cache_key(
+    user_id: str, cache_pattern: str = swap_user_settings.INVALID_LOGIN_COUNTER_PATTERN
 ) -> str:
     """
     Get invalid login cache key for concrete user.
@@ -57,11 +81,11 @@ def get_invalid_login_cache_key(
     return cache_key
 
 
-def get_banned_user_cache_key(
-    user_id: str, cache_pattern: str = swap_user_settings.BANNED_USER_PATTERN
+def get_sent_otp_counter_cache_key(
+    user_id: str, cache_pattern: str = swap_user_settings.SENT_OTP_COUNTER_PATTERN
 ) -> str:
     """
-    Get banned user cache key
+    Get how much OTP sent to concrete user.
     """
 
     cache_key = cache_pattern.format(user_id=user_id)
@@ -69,9 +93,7 @@ def get_banned_user_cache_key(
     return cache_key
 
 
-def increase_counter_of_invalid_login(
-    cache_key: str, default_counter_value: int = DEFAULT_COUNTER_VALUE
-) -> int:
+def increase_counter(cache_key: str, default_counter_value: int = DEFAULT_COUNTER_VALUE) -> int:
     """
     Increase counter of invalid login by 1.
     """

@@ -6,9 +6,11 @@ from django.http import HttpRequest
 from swap_user.helpers import (
     generate_otp,
     get_banned_user_cache_key,
-    get_invalid_login_cache_key,
+    get_invalid_login_counter_cache_key,
     get_otp_cache_key,
-    increase_counter_of_invalid_login,
+    get_otp_rate_limit_reached_cache_key,
+    get_sent_otp_counter_cache_key,
+    increase_counter,
     set_key_to_cache,
 )
 from swap_user.settings import swap_user_settings
@@ -43,12 +45,12 @@ class GetOTPService:
         user_id = user.id
         sender_class = swap_user_settings.OTP_SENDER_CLASS
 
-        otp = generate_otp()
-        cache_key = get_otp_cache_key(user_id)
-        set_key_to_cache(cache_key=cache_key, value=otp)
+        otp = self._generate_and_cache_otp(user_id)
 
         sender = sender_class()
         sender.send(username, otp)
+
+        self._track_sent_otp(user_id)
 
     def save_username_to_sesson(self, request: HttpRequest, username: str):
         """
@@ -84,6 +86,40 @@ class GetOTPService:
 
         return is_staff and is_active
 
+    def _generate_and_cache_otp(self, user_id: str) -> str:
+        """
+        Generates OTP and writes it into cache.
+        """
+
+        otp = generate_otp()
+        cache_key = get_otp_cache_key(user_id)
+        set_key_to_cache(cache_key=cache_key, value=otp)
+
+        return otp
+
+    def _track_sent_otp(
+        self,
+        user_id: str,
+        max_number_of_otp: int = swap_user_settings.MAX_NUMBER_OF_OTP_SENT,
+        ban_timeout: int = swap_user_settings.BAN_FOR_OTP_RATE_LIMIT_TIMEOUT,
+    ):
+        """
+        We are tracking how much OTP we are sending to user.
+        If user reached limit of sent OTP number - he is going to ban.
+        """
+
+        sent_otp_cache_key = get_sent_otp_counter_cache_key(user_id)
+
+        current_counter = increase_counter(sent_otp_cache_key)
+
+        if current_counter < max_number_of_otp:
+            return None
+
+        rate_limit_cache_key = get_otp_rate_limit_reached_cache_key(user_id)
+        set_key_to_cache(
+            cache_key=rate_limit_cache_key, value=USER_IS_BANNED, expire=ban_timeout,
+        )
+
 
 class CheckOTPService:
     """
@@ -103,16 +139,16 @@ class CheckOTPService:
     def track_invalid_login_attempt(
         self,
         username: str,
-        max_invalid_attempts: int = swap_user_settings.MAX_INVALID_LOGIN_ATTEMPTS,
-        ban_timeout: int = swap_user_settings.BANNED_USER_TIMEOUT,
+        max_invalid_attempts: int = swap_user_settings.MAX_ATTEMPTS_OF_INVALID_LOGIN,
+        ban_timeout: int = swap_user_settings.BAN_FOR_INVALID_LOGIN_TIMEOUT,
     ):
         """
         Here we are going to track all invalid login attempts.
         When invalid attempts will reach a limit - user will be banned for some period.
         """
 
-        invalid_login_cache_key = get_invalid_login_cache_key(username)
-        current_counter = increase_counter_of_invalid_login(invalid_login_cache_key)
+        invalid_login_cache_key = get_invalid_login_counter_cache_key(username)
+        current_counter = increase_counter(invalid_login_cache_key)
 
         if current_counter < max_invalid_attempts:
             return None
