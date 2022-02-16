@@ -84,6 +84,13 @@ class GetOTPService:
             cache_key=rate_limit_cache_key, value=USER_IS_BANNED, expire=ban_timeout,
         )
 
+    def do_extra_logic(self, *, username: str, **kwargs):
+        """
+        Hook that can be used to provide some extra logic layer.
+        """
+
+        pass
+
     def _get_user(self, username: str) -> Optional[UserModel]:
         """
         Method, that handles user presence in our DB or not.
@@ -159,6 +166,20 @@ class CheckOTPService:
             cache_key=banned_user_cache_key, value=USER_IS_BANNED, expire=ban_timeout,
         )
 
+    def do_extra_logic_on_valid(self, *, username: str, otp_password: str, **kwargs):
+        """
+        Hook that can be used to provide some extra logic layer on `form_valid`.
+        """
+
+        pass
+
+    def do_extra_logic_on_invalid(self, *, username: str, **kwargs):
+        """
+        Hook that can be used to provide some extra logic layer on `form_invalid`.
+        """
+
+        pass
+
 
 class ValidationService:
     """
@@ -205,6 +226,13 @@ class ValidationService:
             message = _("Invalid credentials.")
             code = "invalid_credentials"
             raise forms.ValidationError(message, code)
+
+    def check_extra(self, *, username: str, otp: str = None, **kwargs):
+        """
+        Hook for providing extra checks.
+        """
+
+        pass
 
     def _get_user(self, username: str) -> UserModel:
         """

@@ -16,6 +16,7 @@ DEFAULT_SETTINGS = {
     "OTP_SENDER_CLASS": "swap_user.otp.senders.StdOutOTPSender",
     "GET_OTP_SERVICE_CLASS": "swap_user.otp.services.GetOTPService",
     "CHECK_OTP_SERVICE_CLASS": "swap_user.otp.services.CheckOTPService",
+    "VALIDATION_SERVICE_CLASS": "swap_user.otp.services.ValidationService",
     # patterns
     "INVALID_LOGIN_COUNTER_PATTERN": "swap-user:invalid:login:{user_id}",
     "SENT_OTP_COUNTER_PATTERN": "swap-user:sent:otp:{user_id}",

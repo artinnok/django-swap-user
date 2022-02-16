@@ -38,6 +38,7 @@ class GetOTPView(FormView):
         service.generate_otp_and_send(username=username)
         service.save_username_to_sesson(request=request, username=username)
         service.track_how_much_otp_sent(username=username)
+        service.do_extra_logic(username=username)
 
         return super().form_valid(form)
 
@@ -82,6 +83,7 @@ class CheckOTPView(SuccessURLAllowedHostsMixin, FormView):
         service.authenticate_and_login(
             request=self.request, username=username, password=otp_password,
         )
+        service.do_extra_logic_on_valid(username=username, otp_password=otp_password)
 
         return super().form_valid(form)
 
@@ -98,6 +100,7 @@ class CheckOTPView(SuccessURLAllowedHostsMixin, FormView):
         service_class = swap_user_settings.CHECK_OTP_SERVICE_CLASS
         service = service_class()
         service.track_invalid_login_attempt(username=username)
+        service.do_extra_logic_on_invalid(username=username)
 
         return super().form_invalid(form)
 

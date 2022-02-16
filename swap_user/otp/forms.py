@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 from swap_user.helpers import normalize_username
 from swap_user.otp.services import ValidationService
+from swap_user.settings import swap_user_settings
 
 
 UserModel = get_user_model()
@@ -30,9 +31,12 @@ class GetOTPForm(forms.ModelForm):
         raw_username = self.cleaned_data[username_field]
         username = normalize_username(raw_username)
 
-        service = ValidationService()
+        service_class = swap_user_settings.VALIDATION_SERVICE_CLASS
+        service = service_class()
+
         service.check_user_is_banned_for_otp_rate_limit(username)
         service.check_user_is_banned_for_invalid_login_attempts(username)
+        service.check_extra(username=username)
 
         return self.cleaned_data
 
@@ -55,8 +59,11 @@ class CheckOTPForm(GetOTPForm):
         username = self.cleaned_data[username_field]
         otp = self.cleaned_data["otp"]
 
-        service = ValidationService()
+        service_class = swap_user_settings.VALIDATION_SERVICE_CLASS
+        service = service_class()
+
         service.check_user_is_banned_for_invalid_login_attempts(username)
         service.check_password(username, otp)
+        service.check_extra(username=username, otp=otp)
 
         return self.cleaned_data
