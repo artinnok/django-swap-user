@@ -27,7 +27,7 @@ lines_after_imports = 2
 
 [tool.poetry]
 name = "django-swap-user"
-version = "0.9.5"
+version = "0.9.6"
 description = "(Beta) Simple and flexible way to swap default Django User"
 authors = ["Artem Innokentiev <artinnok@protonmail.com>"]
 maintainers = ["Artem Innokentiev <artinnok@protonmail.com>"]

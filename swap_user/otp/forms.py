@@ -3,7 +3,6 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from swap_user.helpers import normalize_username
-from swap_user.otp.services import ValidationService
 from swap_user.settings import swap_user_settings
 
 
