@@ -1,9 +1,12 @@
 from typing import Optional
 
+from django import forms
 from django.contrib.auth import authenticate, get_user_model, login
 from django.http import HttpRequest
+from django.utils.translation import gettext_lazy as _
 
 from swap_user.helpers import (
+    check_user_was_banned,
     generate_otp,
     get_banned_for_invalid_login_cache_key,
     get_banned_for_otp_rate_limit_cache_key,
@@ -155,3 +158,67 @@ class CheckOTPService:
         set_key_to_cache(
             cache_key=banned_user_cache_key, value=USER_IS_BANNED, expire=ban_timeout,
         )
+
+
+class ValidationService:
+    """
+    Service that holds different checks and validations.
+    """
+
+    def check_user_is_banned_for_otp_rate_limit(self, username: str):
+        """
+        We are banning user for too many sent OTP codes.
+        Here is a check.
+        """
+
+        cache_key = get_banned_for_otp_rate_limit_cache_key(username)
+        is_banned = check_user_was_banned(cache_key)
+
+        if is_banned:
+            message = _("You are banned - try again later.")
+            code = "banned"
+            raise forms.ValidationError(message, code)
+
+    def check_user_is_banned_for_invalid_login_attempts(self, username: str):
+        """
+        We are banning user for too many invalid login
+        attempts.
+        Here we are checking for this.
+        """
+
+        cache_key = get_banned_for_invalid_login_cache_key(username)
+        is_banned = check_user_was_banned(cache_key)
+
+        if is_banned:
+            message = _("You are banned - contact with admin.")
+            code = "banned"
+            raise forms.ValidationError(message, code)
+
+    def check_password(self, username: str, otp: str):
+        """
+        Check backend cached OTP with user provided OTP.
+        """
+
+        user = self._get_user(username)
+
+        if not user.check_password(otp):
+            message = _("Invalid credentials.")
+            code = "invalid_credentials"
+            raise forms.ValidationError(message, code)
+
+    def _get_user(self, username: str) -> UserModel:
+        """
+        Check User presence in our DB or not.
+        """
+
+        username_field = UserModel.USERNAME_FIELD
+        query_data = {username_field: username}
+
+        try:
+            user = UserModel.objects.get(**query_data)
+        except UserModel.DoesNotExist:
+            message = _("Invalid credentials.")
+            code = "invalid_credentials"
+            raise forms.ValidationError(message, code)
+
+        return user

@@ -2,12 +2,8 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
-from swap_user.helpers import (
-    check_user_was_banned,
-    get_banned_for_invalid_login_cache_key,
-    get_banned_for_otp_rate_limit_cache_key,
-    normalize_username,
-)
+from swap_user.helpers import normalize_username
+from swap_user.otp.services import ValidationService
 
 
 UserModel = get_user_model()
@@ -34,39 +30,11 @@ class GetOTPForm(forms.ModelForm):
         raw_username = self.cleaned_data[username_field]
         username = normalize_username(raw_username)
 
-        self._check_user_is_banned_for_otp_rate_limit(username)
-        self._check_user_is_banned_for_invalid_login_attempts(username)
+        service = ValidationService()
+        service.check_user_is_banned_for_otp_rate_limit(username)
+        service.check_user_is_banned_for_invalid_login_attempts(username)
 
         return self.cleaned_data
-
-    def _check_user_is_banned_for_otp_rate_limit(self, username: str):
-        """
-        We are banning user for too many sent OTP codes.
-        Here is a check.
-        """
-
-        cache_key = get_banned_for_otp_rate_limit_cache_key(username)
-        is_banned = check_user_was_banned(cache_key)
-
-        if is_banned:
-            message = _("You are banned - try again later.")
-            code = "banned"
-            raise forms.ValidationError(message, code)
-
-    def _check_user_is_banned_for_invalid_login_attempts(self, username: str):
-        """
-        We are banning user for too many invalid login
-        attempts.
-        Here we are checking for this.
-        """
-
-        cache_key = get_banned_for_invalid_login_cache_key(username)
-        is_banned = check_user_was_banned(cache_key)
-
-        if is_banned:
-            message = _("You are banned - contact with admin.")
-            code = "banned"
-            raise forms.ValidationError(message, code)
 
 
 class CheckOTPForm(GetOTPForm):
@@ -87,33 +55,8 @@ class CheckOTPForm(GetOTPForm):
         username = self.cleaned_data[username_field]
         otp = self.cleaned_data["otp"]
 
-        self._check_user_is_banned_for_invalid_login_attempts(username)
-        user = self._get_user(username)
-        self._check_password(user, otp)
+        service = ValidationService()
+        service.check_user_is_banned_for_invalid_login_attempts(username)
+        service.check_password(username, otp)
 
-    def _get_user(self, username: str) -> UserModel:
-        """
-        Check User presence in our DB or not.
-        """
-
-        username_field = UserModel.USERNAME_FIELD
-        query_data = {username_field: username}
-
-        try:
-            user = UserModel.objects.get(**query_data)
-        except UserModel.DoesNotExist:
-            message = _("Invalid credentials.")
-            code = "invalid_credentials"
-            raise forms.ValidationError(message, code)
-
-        return user
-
-    def _check_password(self, user: UserModel, otp: str):
-        """
-        Check backend cached OTP with user provided OTP.
-        """
-
-        if not user.check_password(otp):
-            message = _("Invalid credentials.")
-            code = "invalid_credentials"
-            raise forms.ValidationError(message, code)
+        return self.cleaned_data
