@@ -61,6 +61,7 @@ class CheckOTPForm(GetOTPForm):
         service_class = swap_user_settings.VALIDATION_SERVICE_CLASS
         service = service_class()
 
+        service.check_user_is_banned_for_otp_rate_limit(username)
         service.check_user_is_banned_for_invalid_login_attempts(username)
         service.check_password(username, otp)
         service.check_extra(username=username, otp=otp)
