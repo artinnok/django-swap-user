@@ -1,4 +1,4 @@
-# Django-Swap-User (Beta)
+# Django-User-Swap (Beta)
 
 ## About
 If you are tired from copying one custom user model from one project to another ones - use this package.
