@@ -2,6 +2,11 @@ import django
 
 
 def pytest_configure():
+    """
+        Pytest hook which updates django's settings
+        suitable for testing.
+    """
+
     from django.conf import settings
 
     settings.configure(

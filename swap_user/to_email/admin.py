@@ -6,6 +6,10 @@ from swap_user.to_email.models import EmailUser
 
 
 class EmailUserAdmin(BaseUserAdmin):
+    """
+    Admin class with overridden `add` and `edit` forms.
+    """
+
     add_form_class = EmailUserRequiredFieldsForm
     change_form_class = EmailUserOptionalFieldsForm
 

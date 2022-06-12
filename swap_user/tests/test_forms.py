@@ -4,6 +4,10 @@ from swap_user.to_named_email.forms import NamedUserEmailOptionalFieldsForm
 
 
 def test_save_field():
+    """
+    Test whether user fields within the form are being valid and accepted.
+    """
+
     instance = MagicMock()
     data = {
         "email": "hello@world.com",
@@ -16,6 +20,11 @@ def test_save_field():
 
 
 def test_one_password():
+    """
+    Test whether both password fields within the form are being checked by validation.
+    """
+
+
     instance = MagicMock()
     data = {
         "email": "hello@world.com",
@@ -31,6 +40,10 @@ def test_one_password():
 
 
 def test_not_matching_passwords():
+    """
+    Test whether 2 different password fields within the form are being validated.
+    """
+
     instance = MagicMock()
     data = {
         "email": "hello@world.com",
@@ -47,6 +60,10 @@ def test_not_matching_passwords():
 
 
 def test_matching_passwords():
+    """
+    Test whether 2 same password fields within the form are being valid and accepted.
+    """
+
     instance = MagicMock()
     data = {
         "email": "hello@world.com",
