@@ -4,6 +4,10 @@ from swap_user.base_forms import BaseUserOptionalFieldsForm, BaseUserRequiredFie
 
 
 class BaseUserAdmin(admin.ModelAdmin):
+    """
+    Admin base class with overridden `add` and `edit` forms.
+    """
+
     add_form_class = BaseUserRequiredFieldsForm
     change_form_class = BaseUserOptionalFieldsForm
 

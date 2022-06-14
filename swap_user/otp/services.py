@@ -93,7 +93,7 @@ class GetOTPService:
 
     def _get_user(self, username: str) -> Optional[UserModel]:
         """
-        Method, that handles user presence in our DB or not.
+        Method, that handles user presence in our DB.
         """
 
         username_field = UserModel.USERNAME_FIELD
@@ -236,7 +236,7 @@ class ValidationService:
 
     def _get_user(self, username: str) -> UserModel:
         """
-        Check User presence in our DB or not.
+        Checks user's presence in our DB.
         """
 
         username_field = UserModel.USERNAME_FIELD

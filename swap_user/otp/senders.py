@@ -24,6 +24,10 @@ class StdOutOTPSender(AbstractOTPSender):
         logger.info(message)
 
     def _render_message(self, otp: str, **kwargs):
+        """
+        Prepares content of a message being sent to the STDOUT.
+        """
+
         return f"OTP: {otp}"
 
 
@@ -54,11 +58,15 @@ class EmailOTPSender(AbstractOTPSender):
         )
 
     def _render_message(self, otp: str, **kwargs):
+        """
+        Prepares content of an email being sent to a user.
+        """
+
         return f"OTP: {otp}"
 
     def _get_from_email(self):
         """
-        Override this, if your settings are differs from this.
+        Returns email host user from settings.
         """
 
         return settings.EMAIL_HOST_USER
