@@ -16,9 +16,9 @@ pip install django-swap-user
 | Application name | Username field | Description                                                            | `INSTALLED_APPS`                               | `AUTH_USER_MODEL`                      | Replace `django.contrib.admin` to          |
 |------------------|----------------|------------------------------------------------------------------------|------------------------------------------------|----------------------------------------|--------------------------------------------|
 | `to_email`       | `email`        | User with `email` username                                             | ```"swap_user", "swap_user.to_email",```       | `"swap_to_email.EmailUser"`            | not required                               |                                  
-| `to_email_otp`   | `email`        | User with `email` username, without `password` and OPT authentication  | ```"swap_user", "swap_user.to_email_otp",```   | `"swap_to_email_otp.EmailOTPUser"`     | `"swap_user.to_email_otp.apps.SiteConfig"` | 
+| `to_email_otp`   | `email`        | User with `email` username, without `password` and OPT authentication  | ```"swap_user", "swap_user.to_email_otp",```   | `"swap_to_email_otp.EmailOTPUser"`     | `"swap_user.to_email_otp.apps.OTPSiteConfig"` |
 | `to_phone`       | `phone`        | User with `phone` username                                             | ```"swap_user", "swap_user.to_phone",```       | `"swap_to_phone.PhoneUser"`            | not required                               |                                            
-| `to_phone_otp`   | `phone`        | User with `phone` username, without `password`  and OTP authentication | ```"swap_user", "swap_user.to_phone_otp",```   | `"swap_to_phone_otp.PhoneOTPUser"`     | `"swap_user.to_phone_otp.apps.SiteConfig"` | 
+| `to_phone_otp`   | `phone`        | User with `phone` username, without `password`  and OTP authentication | ```"swap_user", "swap_user.to_phone_otp",```   | `"swap_to_phone_otp.PhoneOTPUser"`     | `"swap_user.to_phone_otp.apps.OTPSiteConfig"` |
 
 2. Add corresponding app to `INSTALLED_APPS`:
 ```python
@@ -83,3 +83,11 @@ This is a harder way of doing things, but it is still possible to do:
 - Install this library, follow instructions and apply migrations
 - Then fake rest of migrations we have - `python manage.py migrate --fake`
 - Run your application!
+
+
+## Running tests
+
+```sh
+poetry run tox
+```
+
