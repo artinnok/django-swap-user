@@ -1,4 +1,4 @@
-# Django-User-Swap (Beta)
+# Django-Swap-User (Beta)
 
 
 ## Documentation
