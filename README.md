@@ -1,5 +1,10 @@
 # Django-User-Swap (Beta)
 
+
+## Documentation
+All oficial documentation hosted [here](https://skonik.github.io/django-user-swap-docs/).
+
+
 ## About
 If you are tired from copying one custom user model from one project to another ones - use this package.
 This will do all for you. 
