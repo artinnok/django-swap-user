@@ -2,7 +2,7 @@
 
 
 ## Documentation
-All oficial documentation hosted [here](https://skonik.github.io/django-user-swap-docs/).
+All oficial documentation hosted [here](https://skonik.github.io/django-swap-user-docs/).
 
 
 ## About
