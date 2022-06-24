@@ -1,0 +1,17 @@
+default_language_version:
+    python: python3.9
+
+repos:
+  - repo: local
+    hooks:
+      - id: black
+        name: black
+        entry: black swap_user
+        language: python
+        types: [python]
+
+      - id: isort
+        name: isort
+        entry: isort swap_user
+        language: python
+        types: [python]

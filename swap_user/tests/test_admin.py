@@ -1,11 +1,10 @@
-import pytest
 from django.test import Client
+
+import pytest
 
 
 @pytest.mark.django_db
-def test_to_email_otp_login(
-        to_email_otp_settings
-):
+def test_to_email_otp_login(to_email_otp_settings):
     """
     Check that `to_email_otp` admin login page loads successfully.
     """

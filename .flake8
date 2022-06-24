@@ -1,0 +1,11 @@
+[flake8]
+max-line-length=110
+max-complexity=5
+
+per-file-ignores =
+    __init__.py: F401, W605 # imported but unused
+    migrations/*.py: WPS102, WPS114, WPS432
+exclude=
+  __pycache__,
+  .git,
+  migrations,

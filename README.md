@@ -1,14 +1,23 @@
 # Django-Swap-User (Beta)
+![django-swap-user](https://skonik.github.io/django-swap-user-docs/media/images/django-swap-user.png)
+<p align="center">
+  <a href="https://github.com/artinnok/django-user-swap/actions/workflows/test.yml">
+    <img alt="test" src="https://github.com/artinnok/django-user-swap/actions/workflows/test.yml/badge.svg">
+  </a>
+  <a href="https://github.com/skonik/django-swap-user-docs/actions/workflows/main.yml">
+    <img alt="docs" src="https://github.com/skonik/django-swap-user-docs/actions/workflows/main.yml/badge.svg">
+  </a>
+  <a href="https://pypi.org/project/django-swap-user/" target="_blank">
+    <img src="https://img.shields.io/badge/pypi-v0.9.8-green" alt="PyPi">
+  </a>
+</p>
 
+
+If you are tired from copying one custom user model from one project to another ones - use this package.
+This will do all for you.
 
 ## Documentation
-All oficial documentation hosted [here](https://skonik.github.io/django-swap-user-docs/).
-
-
-## About
-If you are tired from copying one custom user model from one project to another ones - use this package.
-This will do all for you. 
-
+All official documentation hosted [here](https://skonik.github.io/django-swap-user-docs/).
 
 ## Installation
 ```
@@ -21,9 +30,9 @@ pip install django-swap-user
 | Application name | Username field | Description                                                            | `INSTALLED_APPS`                               | `AUTH_USER_MODEL`                      | Replace `django.contrib.admin` to          |
 |------------------|----------------|------------------------------------------------------------------------|------------------------------------------------|----------------------------------------|--------------------------------------------|
 | `to_email`       | `email`        | User with `email` username                                             | ```"swap_user", "swap_user.to_email",```       | `"swap_to_email.EmailUser"`            | not required                               |                                  
-| `to_email_otp`   | `email`        | User with `email` username, without `password` and OPT authentication  | ```"swap_user", "swap_user.to_email_otp",```   | `"swap_to_email_otp.EmailOTPUser"`     | `"swap_user.to_email_otp.apps.OTPSiteConfig"` |
+| `to_email_otp`   | `email`        | User with `email` username, without `password` and OPT authentication  | ```"swap_user", "swap_user.to_email_otp",```   | `"swap_to_email_otp.EmailOTPUser"`     | `"swap_user.apps.OTPSiteConfig"`           |
 | `to_phone`       | `phone`        | User with `phone` username                                             | ```"swap_user", "swap_user.to_phone",```       | `"swap_to_phone.PhoneUser"`            | not required                               |                                            
-| `to_phone_otp`   | `phone`        | User with `phone` username, without `password`  and OTP authentication | ```"swap_user", "swap_user.to_phone_otp",```   | `"swap_to_phone_otp.PhoneOTPUser"`     | `"swap_user.to_phone_otp.apps.OTPSiteConfig"` |
+| `to_phone_otp`   | `phone`        | User with `phone` username, without `password`  and OTP authentication | ```"swap_user", "swap_user.to_phone_otp",```   | `"swap_to_phone_otp.PhoneOTPUser"`     | `"swap_user.apps.OTPSiteConfig"`           |
 
 2. Add corresponding app to `INSTALLED_APPS`:
 ```python
@@ -90,9 +99,21 @@ This is a harder way of doing things, but it is still possible to do:
 - Run your application!
 
 
-## Running tests
+## Development
+If you want to contribute in this project please consider the following instruction.
 
-```sh
-poetry run tox
-```
+### Project setup for development
+
+1. `poetry install` to install poetry deps;
+
+2. `pre-commit install` to install git hooks;
+
+
+### Commands useful in development
+You can execute a bunch of useful commands located inside `Makefile`:
+
+* `make lint` - run code quality tools such as flake8, isort, safety;
+* `make format` - format your code using black and isort;
+* `make test` - run tests;
+
 
