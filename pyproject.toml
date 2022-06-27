@@ -33,18 +33,18 @@ authors = ["Artem Innokentiev <artinnok@protonmail.com>"]
 maintainers = ["Artem Innokentiev <artinnok@protonmail.com>"]
 readme = "README.md"
 keywords = [
-  "django",
-  "swap",
-  "user",
-  "custom",
-  "user",
-  "auth",
-  "model",
-  "email",
-  "username",
-  "phone",
-  "mixins",
-  "authentication",
+    "django",
+    "swap",
+    "user",
+    "custom",
+    "user",
+    "auth",
+    "model",
+    "email",
+    "username",
+    "phone",
+    "mixins",
+    "authentication",
 ]
 license = "MIT"
 repository = "http://github.com/artinnok/django-swap-user"
@@ -53,19 +53,24 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.7"
 django = ">=2.2"
-django-phonenumber-field = {extras = ["phonenumbers"], version = "^5.2.0"}
+django-phonenumber-field = { extras = ["phonenumbers"], version = "^5.2.0" }
 
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
 isort = "^5.1.4"
-pytest = "^5.4.3"
+pytest = "7.1.2"
 mypy = "^0.782"
 tox = "^3.25.0"
 pytest-django = "^4.5.2"
+flake8 = "^4.0.1"
+safety = "^1.10.3"
+pytest-cov = "^3.0.0"
 
 [build-system]
 requires = ["poetry>=1.0.8"]
 build-backend = "poetry.masonry.api"
+
+

@@ -1,4 +1,5 @@
 import django
+
 import pytest
 
 
@@ -11,7 +12,7 @@ def pytest_configure():
     from django.conf import settings
 
     settings.configure(
-        SECRET_KEY='secret',
+        SECRET_KEY="secret",
         DEBUG_PROPAGATE_EXCEPTIONS=True,
         DATABASES={"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}},
         MIDDLEWARE=(
@@ -44,7 +45,7 @@ def pytest_configure():
                     ],
                 },
             },
-        ]
+        ],
     )
 
     django.setup()
@@ -61,10 +62,10 @@ def to_email_otp_settings(settings):
     from django.contrib.sites.models import Site
 
     # Workaround to get rid of related issues when fetching admin page
-    site = Site.objects.create(domain='testserver', name='testserver')
+    site = Site.objects.create(domain="testserver", name="testserver")
     site.save()
 
-    settings.SECRET_KEY = 'secret'
+    settings.SECRET_KEY = "secret"
     settings.DEBUG_PROPAGATE_EXCEPTIONS = True
     settings.DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": ":memory:"}}
     settings.MIDDLEWARE = (
@@ -99,8 +100,8 @@ def to_email_otp_settings(settings):
             },
         },
     ]
-    settings.STATIC_URL = '/static'
-    settings.ROOT_URLCONF = 'swap_user.tests.urls'
+    settings.STATIC_URL = "/static"
+    settings.ROOT_URLCONF = "swap_user.tests.urls"
     settings.AUTH_USER_MODEL = "swap_to_email_otp.EmailOTPUser"
 
     return settings

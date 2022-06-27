@@ -33,8 +33,8 @@ def test_one_password():
 
     assert form.is_valid() is False
     assert (
-            form.errors.as_json()
-            == '{"__all__": [{"message": "Provide both of passwords", "code": "provide_both_passwords"}]}'
+        form.errors.as_json()
+        == '{"__all__": [{"message": "Provide both of passwords", "code": "provide_both_passwords"}]}'
     )
 
 
@@ -53,8 +53,8 @@ def test_not_matching_passwords():
 
     assert form.is_valid() is False
     assert (
-            form.errors.as_json()
-            == '{"__all__": [{"message": "Passwords should be same", "code": "password_should_be_same"}]}'
+        form.errors.as_json()
+        == '{"__all__": [{"message": "Passwords should be same", "code": "password_should_be_same"}]}'
     )
 
 
