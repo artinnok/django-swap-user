@@ -117,3 +117,8 @@ You can execute a bunch of useful commands located inside `Makefile`:
 * `make test` - run tests;
 
 
+### Sponsor
+[django-swap-user](https://evrone.com/django-swap-user?utm_source=github&utm_medium=django-swap-user) project is created & supported by [Evrone](https://evrone.com?utm_source=github&utm_medium=django-swap-user)
+
+[<img src="https://evrone.com/logo/evrone-sponsored-logo.png" width=300>](https://evrone.com?utm_source=github&utm_medium=python-guidelines)
+
