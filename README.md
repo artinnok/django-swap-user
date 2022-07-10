@@ -13,8 +13,8 @@
 </p>
 
 
-If you are tired from copying one custom user model from one project to another ones - use this package.
-This will do all for you.
+If you are tired of copying one custom user model from one project to another - use this package.
+This will do it all for you.
 
 ## Documentation
 All official documentation hosted [here](https://skonik.github.io/django-swap-user-docs/).
@@ -25,7 +25,7 @@ pip install django-swap-user
 ```
 
 ## Basic usage
-1. Choose one of models that suits for you and copy related settings from the table:
+1. Choose a model that suits you and copy related settings from the table:
 
 | Application name | Username field | Description                                                            | `INSTALLED_APPS`                               | `AUTH_USER_MODEL`                      | Replace `django.contrib.admin` to          |
 |------------------|----------------|------------------------------------------------------------------------|------------------------------------------------|----------------------------------------|--------------------------------------------|
@@ -65,12 +65,12 @@ Application `swap_user` split into 3 apps:
   - `to_phone_otp` - provides user with `phone` username field and OTP (One Time Password) authentication
   
   
-## Why so unusual architecture?
+## Why the unusual architecture?
 Because if we leave them in one app, they all will create migrations and tables - such approach leads us to redundant tables.
 They will be treated as 3 custom models within the same app, which causes perplexing and cognitive burden.
 
 With such approach (when there is a common app which contains internal apps) - the user 
-choose and connect only the specific user model which suits best for concrete business-logic. 
+can choose to connect with the specific user model which is most applicable for concrete business-logic. 
 
 I have found such approach at Django REST Framework `authtoken` application and decide to use it - reference is [here](https://github.com/encode/django-rest-framework/tree/master/rest_framework/authtoken).
 
