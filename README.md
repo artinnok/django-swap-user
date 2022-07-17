@@ -18,6 +18,7 @@ This will do it all for you.
 
 ## Documentation
 All official documentation hosted [here](https://skonik.github.io/django-swap-user-docs/).
+The documentation repo is located [here](https://github.com/skonik/django-swap-user-docs).
 
 ## Installation
 ```
