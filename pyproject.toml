@@ -53,7 +53,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 django = ">=2.2"
 django-phonenumber-field = { extras = ["phonenumbers"], version = "^5.2.0" }
 
