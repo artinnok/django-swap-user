@@ -66,7 +66,7 @@ mypy = "^1"
 tox = "^3.25.0"
 pytest-django = "^4.5.2"
 flake8 = "^4.0.1"
-safety = "^1.10.3"
+safety = "^2"
 pytest-cov = "^3.0.0"
 
 [build-system]
