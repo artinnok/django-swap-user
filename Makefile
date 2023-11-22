@@ -22,9 +22,6 @@ test: # Run tests
 
 # Prevent running a file with same name
 .PHONY: test
-ci.test: # Run ci tests
-	poetry run pytest swap_user
-
 
 ci.lint: # Run code quality tools inside ci
 	# Check pep8 style
